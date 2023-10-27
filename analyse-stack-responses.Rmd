@@ -1,0 +1,819 @@
+---
+title: "STACK responses - analysis of coding"
+author: "George Kinnear"
+date: "2022-03-07"
+always_allow_html: true
+output:
+  html_document:
+    df_print: paged
+    toc: true
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+# Tables
+library(knitr)
+library(kableExtra)
+basic_kable = function(df) {
+  df %>% 
+    kable() %>%
+    kable_styling(bootstrap_options = "striped", full_width = F)
+}
+rmarkdown::html_document(df_print = knitr::kable)
+options(knitr.kable.NA = '')
+
+# Set preferred styling
+theme_set(theme_minimal())
+```
+
+```{r}
+files <- fs::dir_ls(path = "2020-stack-responses/", glob = "*attempts_q*csv")
+response_data_raw <- vroom::vroom(files, id = "csv_path")#, show_col_types = FALSE)
+
+response_data <- response_data_raw %>% 
+  filter(!userid %in% c(2)) %>% 
+  # identify the question part a/b/c/d
+  mutate(question = str_extract(csv_path, "attempts_q([:digit:])") %>% parse_number()) %>% 
+  mutate(part = letters[question], .before = 1, .keep = "unused") %>% 
+  # keep only the relevant columns
+  select(part, responsesummary, state, fraction, userid) %>% 
+  # pick out the bits of the responsesummary
+  extract(responsesummary, into = c("response", "score", "prt"), regex = ".*ans1: ([^\\| ]*) \\[score\\]; prt1: # = ([^\\| ]*) \\| (.*)") %>% 
+  mutate(score = parse_number(score))
+```
+
+## Response summary
+
+There are two issues with the responses that complicate the analysis:
+
+1.  STACK offered partial credit for parts b/c/d, and
+2.  students did not always give a response; these are shown as a score of `NA` rather than a score of 0.
+
+```{r}
+response_data %>%
+  group_by(part, score) %>% 
+  tally()
+```
+
+```{r}
+correctness_summary <- response_data %>%
+  # correct only when the score is 1, incorrect otherwise
+  #mutate(correct = if_else(!is.na(score), score == 1, FALSE)) %>% 
+  mutate(correct = if_else(!is.na(score), score == 1, NA)) %>% 
+  group_by(part, correct) %>% 
+  tally()
+
+correctness_summary %>%
+  pivot_wider(names_from = "correct", values_from = "n") %>%
+  rename(Part = part, Correct = `TRUE`, Incorrect = `FALSE`) %>% 
+  rowwise() %>% 
+  mutate(Total = sum(Correct, Incorrect)) %>% 
+  basic_kable()
+
+correctness_summary2 <- response_data %>%
+  # correct only when the score is 1, incorrect otherwise
+  mutate(correct = if_else(!is.na(score) & score == 1, "Correct", "Incorrect")) %>%
+  # correct only when the score is 1, incorrect otherwise, except if no response
+  mutate(correct = case_when(
+    is.na(score) ~ "No response",
+    score == 1 ~ "Correct",
+    TRUE ~ "Incorrect"
+  )) %>%
+  janitor::tabyl(part, correct)
+
+correctness_summary2 %>%
+  janitor::adorn_totals("col") %>%
+  janitor::adorn_percentages() %>%
+  janitor::adorn_pct_formatting(digits = 0) %>%
+  janitor::adorn_ns(position = "front") %>% 
+  basic_kable()
+  
+correctness_summary2 %>% 
+  pivot_longer(cols = !part, names_to = "correct", values_to = "n") %>% 
+  mutate(correct = fct_rev(correct)) %>% 
+  ggplot(aes(x = part, y = n, group = correct, fill = correct)) +
+  geom_bar(position = "stack", stat = "identity") +
+  scale_fill_viridis_d(option = "plasma", end = 0.8) +
+  labs(title = "Number of correct answers to each part")
+```
+
+## Response details
+
+(Here, all "null" responses are discarded rather than being counted as incorrect.)
+
+Looking in more detail at the specific questions:
+
+```{r}
+coord_names = paste0(c("x", "y"), ceiling(c(1:8)/2))
+response_coords = response_data %>%
+  mutate(ans_nums = str_replace_all(response, "\\[|\\]", "")) %>% 
+  filter(!is.na(score)) %>% 
+  separate(ans_nums, into = coord_names, sep = ",", remove = FALSE) %>% 
+  mutate(across(all_of(coord_names), as.numeric))
+
+response_coords %>% 
+  pivot_longer(cols = all_of(coord_names), names_to = "coord", values_to = "value") %>% 
+  separate(coord, into = c("coord", "pt_num"), sep = 1) %>% 
+  pivot_wider(names_from = "coord", values_from = "value") %>% 
+  ggplot(aes(x = x, y = y, group = userid, colour = userid)) +
+  facet_grid(rows = vars(part), cols = vars(score)) +
+  geom_point() +
+  geom_line() +
+  theme(legend.position = "none")
+
+```
+
+## Check for specific issues in answers
+
+```{r}
+response_issues <- response_coords %>% 
+  rowwise() %>% 
+  mutate(
+    image_min = min(c(y1, y2, y3, y4)),
+    image_max = max(c(y1, y2, y3, y4)),
+    domain_min = min(c(x1, x2, x3, x4)),
+    domain_max = max(c(x1, x2, x3, x4))
+  ) %>% 
+  mutate(
+    # some students seemed to place the points on top of each other
+    has_repeated_pt = case_when(
+      x1 == x2 & y1 == y2 ~ TRUE,
+      x3 == x2 & y3 == y2 ~ TRUE,
+      x3 == x4 & y3 == y4 ~ TRUE
+    ),
+    example_type = case_when(
+      length(unique(c(x1,x2,x3,x4))) < 4 ~ "not a function",
+      TRUE ~ "piecewise linear"
+    ),
+    null_response = if_else(all(c(x1,x2,x3,x4) == c(0, 0.3, 0.7, 1)) && all(c(y1,y2,y3,y4) == c(0,0,0,0)), "No response", NA_character_),
+    nature_of_mistake_domain = case_when(
+      domain_min == 0 & domain_max == 0.5 ~ "domain is [0,1/2]",
+      domain_min < 0 | domain_max > 1 ~ "domain exceeds [0,1]", # should not be possible, given the interface!
+      domain_min > 0 | domain_max < 1 ~ "domain has gaps",
+    ),
+    nature_of_mistake_image = case_when(
+      image_min < 0 | image_max > 1 ~ "image goes beyond [0,1]",
+      
+      # for a, the image should be [0,1/2]
+      part == "a" & image_min == 0.5 & image_max == 1 ~ "image is [1/2,1]",
+      part == "a" & image_min == 0 & image_max == 1 ~ "surjective but should not be",
+      
+      # for b, the image should be [0,1/2]
+      part == "b" & (image_max < 0.5) ~ "image too small",
+      part == "b" & image_max > 0.5 & image_min == 0 ~ "image too large",
+      part == "b" & image_max != 0.5 & image_min != 0 ~ "image other",
+      
+      # for c, the image should be [0,1]
+      part == "c" & image_min == 00 & image_max == 0.5 ~ "image is [0,1/2]",
+      part == "c" & (image_min > 0 | image_max < 1) ~ "image too small",
+      
+      # for d, the image should be smaller than [0,1]
+      part == "d" & image_min == 0 & image_max == 1 ~ "surjective but should not be",
+    ),
+    nature_of_mistake_other = case_when(
+      (part == "b" | part == "c") & (all(diff(c(y1,y2,y3,y4)) > 0) | all(diff(c(y1,y2,y3,y4)) < 0)) ~ "injective but should not be",
+    )
+  ) %>% 
+  mutate(nature_of_mistake = paste0(na.omit(c(null_response, nature_of_mistake_domain, nature_of_mistake_image, nature_of_mistake_other)), collapse = "; "))
+
+response_issues %>% group_by(part, score, example_type, nature_of_mistake) %>% tally() %>% basic_kable()
+```
+
+
+```{r}
+plot_responses <- function(responses_to_plot, title = "Responses") {
+  responses_to_plot %>% 
+    pivot_longer(cols = all_of(coord_names), names_to = "coord", values_to = "value") %>% 
+    separate(coord, into = c("coord", "pt_num"), sep = 1) %>% 
+    pivot_wider(names_from = "coord", values_from = "value") %>% 
+    ggplot(aes(x = x, y = y)) +
+    facet_wrap(vars(userid)) +
+    geom_point(colour = "#003399") +
+    geom_line(colour = "#003399") +
+    #geom_label(data = responses_to_plot, aes(x = 0, y = Inf, label = nature_of_mistake), hjust = 0) +
+    coord_cartesian(ylim = c(0, 1), xlim = c(0, 1), clip = "off") +
+    scale_y_continuous(breaks = seq(0, 1, 1), minor_breaks = seq(0, 1, 0.1)) +
+    scale_x_continuous(breaks = seq(0, 1, 1), minor_breaks = seq(0, 1, 0.1)) +
+    theme(legend.position = "none") +
+    theme(panel.spacing = unit(2, "lines")) +
+    theme(aspect.ratio = 1) +
+    labs(title = title, x = "", y = "")
+}
+```
+
+
+### (a) image $[0,\frac12]$
+
+```{r}
+response_issues %>%
+  filter(part == "a") %>%
+  group_by(score, example_type, nature_of_mistake) %>%
+  tally() %>%
+  arrange(-score, example_type, -n) %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = c(1:2), valign = "top")
+```
+
+#### Correct answers
+
+```{r}
+part_a_correct <- response_issues %>% 
+  filter(part == "a", score == 1) %>% 
+  mutate(part_a_type = case_when(
+    all(c(y1-x1/2, y2-x2/2, y3-x3/2, y4-x4/2) == 0) ~ "1. y = x/2",
+    y1 < y2 && y2 < y3 && y3 < y4 ~ "2. increasing",
+    y1 == 0 & y1 < y2 && y3 > y4 && y4 ==0 ~ "3. hump / peak / valley",
+    y1 == 0.5 & y1 > y2 && y3 < y4 && y4 ==0.5 ~ "3. hump / peak / valley",
+    length(which(c(y1,y2,y3,y4) != 0)) == 1 ~ "4. only one point moved",
+    #y1 < y2 && y2 > y3 && y3 < y4 ~ "x. zig zag",
+    TRUE ~ "other",
+  )) %>% 
+  group_by(part_a_type) %>% 
+  mutate(count = n())
+
+part_a_correct %>% 
+  group_by(part_a_type) %>% 
+  slice_head(n = 1) %>% 
+  mutate(userid = str_glue("{part_a_type} (n={count})")) %>% 
+  plot_responses(title = "Families of correct responses")
+
+ggsave("2020-stack-responses/FIG_task1_correct.pdf", units = "cm", width = 18)
+
+part_a_correct %>% 
+  filter(part_a_type == "other") %>% 
+  plot_responses(title = "Responses in the \"other\" category")
+```
+
+How often did students realise they could move the points horizontally?
+
+```{r}
+part_a_correct %>% 
+  group_by(part_a_type, x1, x2, x3, x4) %>% 
+  tally()
+```
+
+Most of the "increasing" examples (64 of the 84) used the default x-coordinates.
+
+#### Not a function
+
+Several students gave responses with vertical segments.
+
+Apparent among these are several students joining the points (0,1) and (0,1/2), perhaps confusing the interval notation in the question for coordinates of points?
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "a", score == 0, example_type == "not a function") %>% 
+  plot_responses(title = "Not a function, score = 0")
+```
+
+Some of these responses are close to correct, in the sense that minor perturbation of one of the points would make a vertical segment merely very steep, and the function would have the required properties (e.g. `userid` 2900, 3400, 3407).
+
+There were a few students who made some of the points overlap, but ignoring the duplicates, the resulting graph is correct:
+
+```{r fig.height=3, fig.width=8}
+response_issues %>% 
+  filter(part == "a", score == 1, example_type == "not a function") %>% 
+  plot_responses(title = "Not a function, score = 1")
+```
+
+#### Piecewise linear
+
+Among students who correctly plotted a piecewise linear function, there were a few common mistakes.
+
+##### 1. Surjective but should not be
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "a", score != 1, example_type != "not a function", nature_of_mistake_image == "surjective but should not be") %>% 
+  plot_responses(title = "surjective but should not be, score < 1")
+```
+	
+Out of these, there are only 5 cases where the student has given an example with a domain of $[0,\frac12]$, consistent with confusing the domain and image.
+
+The rest seem to just be ignoring the condition on the image.
+
+##### 2. Confusing domain and image?
+
+Another other common issue was for students to give an example with domain $[0,\frac12]$:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "a", score != 1, example_type != "not a function", nature_of_mistake_domain == "domain is [0,1/2]") %>% 
+  plot_responses(title = "Domain is [0,1/2], score < 1")
+```
+
+In many of these examples, the image is also $[0,\frac12]$ (e.g. `userid` 4151).
+
+
+##### 3. Gaps in the domain
+
+Many students used some other subset of $[0,1]$ as the domain, only sometimes with the correct image:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "a", score != 1, example_type != "not a function", nature_of_mistake_domain == "domain has gaps") %>% 
+  plot_responses(title = "Domain has gaps, score < 1")
+```
+
+##### 4. Miscellaneous
+
+Finally, there were several students giving responses that were incorrect, but did not fit any of the previously defined categories.
+
+There are perhaps two identifiable "families" among these:
+
+1. constant functions (e.g. `userid` 2741)
+2. almost correct answers, perhaps let down by poor scale reading? (e.g. `userid` 2695, where the highest values are close to, but just below, 0.5; or `userid` 3281 which overshoots 0.5 at the right endpoint.)
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "a", score != 1, example_type != "not a function", nature_of_mistake == "") %>% 
+  plot_responses(title = "Unknown error")
+```
+
+
+### (b) image $[0,\frac12]$ and not injective
+
+```{r}
+response_issues %>%
+  filter(part == "b") %>%
+  group_by(score, example_type, nature_of_mistake) %>%
+  tally() %>%
+  arrange(-score, example_type, -n) %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = c(1:2), valign = "top")
+```
+
+#### Correct answers
+
+```{r}
+part_b_correct_old_classification <- response_issues %>% 
+  filter(part == "b", score == 1) %>% 
+  mutate(part_b_type = case_when(
+    y1 == 0 & y2 == 0.5 && y3 == 0.5 && y4 ==0 ~ "1. hump",
+    y1 == y2 | y2 == y3 | y3 == y4 ~ "2. flat part",
+    y1 < y2 && y2 > y3 && y3 < y4 ~ "3. zig zag",
+    y1 < y2 && y2 > y3 && y3 > y4 ~ "4. concave down",
+    y1 < y2 && y2 < y3 && y3 > y4 ~ "4. concave down",
+    TRUE ~ "other"
+  )) %>% 
+  group_by(part_b_type) %>% 
+  mutate(count = n())
+
+part_b_correct_old_classification %>% 
+  filter(part_b_type == "2. flat part") %>% 
+  head(n = 16) %>% 
+  plot_responses()
+
+part_b_correct <- response_issues %>% 
+  filter(part == "b", score == 1) %>% 
+  mutate(part_b_type = case_when(
+    y1 == 0 && y2 == 0.5 && y3 == 0.5 && y4 == 0 ~ "1. hump - down",
+    y1 == 0.5 && y2 == 0 && y3 == 0 && y4 == 0.5 ~ "1. hump - up",
+    y1 <= y2 && y2 <= y3 && y3 <= y4 ~ "2. nondecreasing",
+    y1 >= y2 && y2 >= y3 && y3 >= y4 ~ "X. nonincreasing",
+    y1 < y2 && y2 > y3 && y3 < y4 ~ "3. zig zag",
+    y1 > y2 && y2 < y3 && y3 > y4 ~ "3. zig zag",
+    y1 == 0 && y4 == 0 ~ "4. hump - other",
+    y1 <= y2 && y3 >= y4 ~ "4. hump - other",
+    y1 == 0.5 && y4 == 0.5 ~ "4. hump - other",
+    y1 >= y2 && y3 < y4 ~ "4. hump - other",
+    TRUE ~ "other"
+  )) %>% 
+  group_by(part_b_type) %>% 
+  mutate(count = n())
+
+part_b_correct %>% 
+  group_by(part_b_type) %>% 
+  slice_head(n = 1) %>% 
+  mutate(userid = str_glue("{part_b_type} (n={count})")) %>% 
+  plot_responses(title = "Task B: Families of correct responses")
+
+ggsave("2020-stack-responses/FIG_task2_correct.pdf", units = "cm", width = 18)
+```
+
+```{r fig.height=7, fig.width=8}
+part_b_correct %>% 
+  filter(str_detect(part_b_type, "1. hump")) %>% 
+  head(n = 25) %>% 
+  plot_responses("Task B: humps of both types (first 25)") + theme(panel.spacing = unit(0.2, "lines"))
+
+
+part_b_correct %>% 
+  filter(part_b_type == "2. nondecreasing") %>% 
+  plot_responses("Task B: nondecreasing") + theme(panel.spacing = unit(0.2, "lines"))
+
+part_b_correct %>% 
+  filter(part_b_type == "3. zig zag") %>% 
+  plot_responses("Task B: zig-zag") + theme(panel.spacing = unit(0.2, "lines"))
+
+part_b_correct %>% 
+  filter(part_b_type == "4. hump - other") %>% 
+  plot_responses("Task B: hump-other") + theme(panel.spacing = unit(0.2, "lines"))
+
+
+```
+
+
+#### Not a function
+
+Within the examples that are "not a function", some of them had unidentified mistakes. This is either because they use vertical segments, or because two points have been dragged to coincide.
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0, nature_of_mistake == "") %>% 
+  plot_responses(title = "Not a function")
+```
+
+The remaining "not a function" responses are quite varied:
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0, example_type == "not a function", nature_of_mistake != "") %>% 
+  plot_responses(title = "Not a function")
+```
+
+#### Partially correct
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0.5, nature_of_mistake == "image too small") %>% 
+  plot_responses(title = "Image too small")
+```
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0.5, nature_of_mistake == "image too large") %>% 
+  plot_responses(title = "Image too large")
+```
+
+```{r fig.height=2, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0.5, nature_of_mistake == "injective but should not be") %>% 
+  plot_responses(title = "Injective but should not be")
+```
+
+#### Incorrect
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0, example_type == "piecewise linear", str_detect(nature_of_mistake, "image too small")) %>% 
+  plot_responses(title = "Image too small")
+```
+
+Several of those are horizontal lines.
+
+
+```{r}
+part_b_mistakes <- response_issues %>% 
+  filter(part == "b") %>% 
+  mutate(mistake = case_when(
+    !is.na(nature_of_mistake_domain) && !is.na(nature_of_mistake_image) ~ "both",
+    !is.na(nature_of_mistake_domain) ~ "domain",
+    !is.na(nature_of_mistake_image) ~ "image",
+    str_length(nature_of_mistake) > 0 ~ "other",
+    example_type == "not a function" ~ "other",
+    TRUE ~ "none"
+  ))
+
+part_b_mistakes %>% 
+  count(mistake)
+
+part_b_mistakes %>% 
+  janitor::tabyl(mistake) %>% 
+  filter(mistake != "none") %>% 
+  mutate(mistake = fct_relevel(as.factor(mistake), "domain", "both", "image", "other")) %>% 
+  ggplot(aes(x = 1, y = n, fill = mistake)) +
+  geom_bar(position = "stack", stat = "identity") +
+  coord_flip()
+```
+
+```{r fig.height=5, fig.width=8}
+part_b_mistakes %>% 
+  group_by(mistake, nature_of_mistake_domain, nature_of_mistake_image) %>% 
+  tally()
+
+part_b_mistakes %>% 
+  filter(mistake == "both") %>% 
+  plot_responses(title = "Wrong image and domain")
+
+
+```
+
+Just the point (0, 1/2) - one student does this for both (a) and (b); there are two other students doing it for (a), and two separate students for (b).
+
+```{r}
+response_issues %>% 
+  filter(x1 == 0, x2 == 0, x3 == 0, x4 == 0, y1 == 0.5, y2 == 0.5, y3 == 0.5, y4 == 0.5)
+```
+
+
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0, example_type == "piecewise linear", str_detect(nature_of_mistake, "domain")) %>% 
+  plot_responses(title = "Problem with the domain")
+```
+
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "b", score == 0, example_type == "piecewise linear", str_detect(nature_of_mistake, "injective")) %>% 
+  plot_responses(title = "Injective but should not be")
+```
+
+
+
+
+
+
+### (c) surjective and not injective
+
+```{r}
+response_issues %>%
+  filter(part == "c") %>%
+  group_by(score, example_type, nature_of_mistake) %>%
+  tally() %>%
+  arrange(-score, example_type, -n) %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = c(1:2), valign = "top")
+```
+
+#### Correct answers
+
+To get a feel for the range of responses, we first analyse based on the slopes of the three segments:
+
+
+```{r, fig.height=6, fig.width=6}
+incdecanalysis <- function(y1, y2, y3, y4) {
+  seg1 <- ifelse(y2 > y1, "inc", ifelse(y2 == y1, "flat", "dec"))
+  seg2 <- ifelse(y3 > y2, "inc", ifelse(y3 == y2, "flat", "dec"))
+  seg3 <- ifelse(y4 > y3, "inc", ifelse(y4 == y3, "flat", "dec"))
+  return(paste(seg1, seg2, seg3))
+}
+
+response_issues %>% 
+  filter(part == "c", score == 1) %>% 
+  mutate(example_type = pmap_chr(list(y1,y2,y3,y4), incdecanalysis)) %>% 
+  group_by(example_type) %>% 
+  mutate(count = n()) %>% 
+  slice_head(n = 1) %>% 
+  mutate(userid = str_glue("{example_type} (n={count})")) %>% 
+  ungroup() %>% 
+  mutate(userid = fct_reorder(userid, -count)) %>% 
+  plot_responses(title = "Task C: Responses grouped by segment slopes")
+```
+
+```{r}
+part_c_correct <- response_issues %>% 
+  filter(part == "c", score == 1) %>% 
+  mutate(incdec = pmap_chr(list(y1,y2,y3,y4), incdecanalysis)) %>% 
+  mutate(part_c_type = case_when(
+    all(diff(c(y1,y2,y3,y4)) <= 0) ~ "1. nonincreasing",
+    all(diff(c(y1,y2,y3,y4)) >= 0) ~ "1. nondecreasing",
+    all(sign(diff(c(y1,y2,y3,y4))) == c(1,-1,1)) ~ "3. zig zag (inc)",
+    all(sign(diff(c(y1,y2,y3,y4))) == c(-1,1,-1)) ~ "3. zig zag (dec)",
+    y1 < y2 && y2 > y3 && y3 > y4 ~ "2. peak",
+    y1 < y2 && y2 < y3 && y3 > y4 ~ "2. peak",
+    y1 > y2 && y2 < y3 && y3 < y4 ~ "2. valley",
+    y1 > y2 && y2 > y3 && y3 < y4 ~ "2. valley",
+    all(sign(diff(c(y1,y2,y3,y4))) == c(1,0,-1)) ~ "2. hump (n)",
+    all(sign(diff(c(y1,y2,y3,y4))) == c(-1,0,1)) ~ "2. hump (u)",
+    TRUE ~ "other"
+  )) %>% 
+  group_by(part_c_type) %>% 
+  mutate(count = n())
+
+part_c_correct %>% 
+  group_by(part_c_type) %>% 
+  tally()
+
+part_c_correct %>% 
+  mutate(incdec_type = if_else(str_detect(incdec, "dec"), "decreasing somewhere", "nondecreasing")) %>% 
+  group_by(incdec_type) %>% 
+  tally()
+
+```
+
+```{r fig.height=6, fig.width=6}
+part_c_correct %>% 
+  group_by(part_c_type) %>% 
+  slice_head(n = 1) %>% 
+  mutate(userid = str_glue("{part_c_type} (n={count})")) %>% 
+  plot_responses(title = "Task C: Families of correct responses")
+
+ggsave("2020-stack-responses/FIG_task3_correct.pdf", units = "cm", width = 18)
+```
+
+Another way to look at it - answers are only correct if the function is non-injective, which is achieved either with a flat segment, or a change between increasing and decreasing (or both features).
+
+```{r}
+part_c_correct_features <- part_c_correct %>% 
+  mutate(feature_analysis = case_when(
+    str_detect(incdec, "flat") && !str_detect(incdec, "inc") ~ "monotone flat",
+    str_detect(incdec, "flat") && !str_detect(incdec, "dec") ~ "monotone flat",
+    !str_detect(incdec, "flat") ~ "no flat",
+    str_detect(incdec, "flat") && str_detect(incdec, "inc") && str_detect(incdec, "dec") ~ "both",
+    TRUE ~ "other"
+  ))
+
+part_c_correct_features %>% 
+  group_by(feature_analysis) %>% 
+  tally()
+```
+
+```{r}
+part_c_correct_features %>% 
+  filter(feature_analysis == "no flat") %>% 
+  head(n = 25) %>% 
+  plot_responses(title = "Families of correct responses")  + theme(panel.spacing = unit(0.2, "lines"))
+```
+
+
+
+
+
+
+
+```{r}
+part_c_correct %>% 
+  filter(part_c_type == "other") %>% 
+  plot_responses(title = "Correct responses in the \"Other\" group")
+```
+
+
+#### Not a function
+
+Most of those with an unidentified error had introduced vertical segments:
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0, nature_of_mistake == "") %>% 
+  plot_responses(title = "Not a function")
+```
+Note - response 3576 is being plotted incorrectly here: the student actually reversed the order of the middle two points (`r (response_issues %>% filter(userid == 3576) %>% filter(part == "c"))$response`) so the graph would have looked like a "lightning bolt" shape to the student.
+
+The remaining "not a function" responses are quite varied, failing to meet the required properties in different ways:
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0, example_type == "not a function", nature_of_mistake != "") %>% 
+  plot_responses(title = "Not a function")
+```
+
+#### Partially correct
+
+Many of the students gave examples that were not injective (as required) but also _not_ surjective. Among them, a common pattern was to give a function with image $[0,\frac12]$:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0.5, nature_of_mistake == "image is [0,1/2]") %>% 
+  plot_responses(title = "image is [0,1/2]")
+```
+
+Though many other students missed other parts of the image:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0.5, nature_of_mistake == "image too small") %>% 
+  plot_responses(title = "Image too small")
+```
+
+Another common error was to provide a surjective function, but one that was injective when it should not be:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0.5, nature_of_mistake == "injective but should not be") %>% 
+  plot_responses(title = "injective but should not be")
+```
+
+#### Incorrect
+
+The remaining incorrect answers are quite diverse:
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0, example_type == "piecewise linear") %>% 
+  plot_responses(title = "Misc incorrect")
+```
+
+Several of those are horizontal lines.
+
+
+
+
+
+
+
+### (d) injective, not surjective, and passes through $(0.2, 0.8)$ and $(0.5, 0.5)$
+
+```{r}
+response_issues %>%
+  filter(part == "d") %>%
+  group_by(score, example_type, nature_of_mistake) %>%
+  tally() %>%
+  arrange(-score, example_type, -n) %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = c(1:2), valign = "top")
+```
+
+#### Correct answers
+
+Correct responses here are relatively constrained.
+
+The most common correct answers fix the middle two points to the ones given in the task, and either have the first point below y=1 or the last point above y=0 (or both). We label these the "standard" answers.
+
+A few students chose to use different locations for the middle two points, though still satisfying the conditions given in the task (labelled "nonstandard").
+
+```{r}
+part_d_correct <- response_issues %>% 
+  filter(part == "d", score == 1) %>% 
+  mutate(part_d_type = case_when(
+    x2 != 0.2 || x3 != 0.5 ~ "nonstandard",
+    y1 < 1 && y4 > 0 ~ "standard: both ends",
+    y1 < 1 ~ "standard: top end",
+    y4 > 0 ~ "standard: bottom end",
+    TRUE ~ "other"
+  )) %>% 
+  group_by(part_d_type) %>% 
+  mutate(count = n())
+
+part_d_correct %>% 
+  group_by(part_d_type) %>% 
+  tally()
+
+part_d_correct %>% 
+  group_by(part_d_type) %>% 
+  slice_head(n = 1) %>% 
+  mutate(userid = str_glue("{part_d_type} (n={count})")) %>% 
+  plot_responses(title = "Task D: Families of correct responses")
+
+ggsave("2020-stack-responses/FIG_task4_correct.pdf", units = "cm", width = 18)
+```
+
+The "other" example here is actually incorrect (by somehow having the first point at $(0, 1.1)$) and the STACK grading is not picking this up.
+
+
+#### Partially correct
+
+Many of the students gave examples that were not injective (as required) but also _not_ surjective. Among them, a common pattern was to give a function with image $[0,\frac12]$:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0.5, nature_of_mistake == "image is [0,1/2]") %>% 
+  plot_responses(title = "image is [0,1/2]")
+```
+
+Though many other students missed other parts of the image:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0.5, nature_of_mistake == "image too small") %>% 
+  plot_responses(title = "Image too small")
+```
+
+Another common error was to provide a surjective function, but one that was injective when it should not be:
+
+```{r fig.height=4, fig.width=8}
+response_issues %>% 
+  filter(part == "c", score == 0.5, nature_of_mistake == "injective but should not be") %>% 
+  plot_responses(title = "injective but should not be")
+```
+
+#### Incorrect
+
+As before, several students included vertical segments or made two points coincide:
+
+```{r fig.height=7, fig.width=8}
+response_issues %>% 
+  filter(part == "d", score == 0, example_type == "not a function") %>% 
+  plot_responses(title = "Not a function")
+```
+
+The most common class of incorrect responses had gaps in the domain:
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "d", score == 0, example_type == "piecewise linear", nature_of_mistake == "domain has gaps") %>% 
+  plot_responses(title = "Misc incorrect")
+```
+
+The remaining incorrect answers are not very interesting:
+
+```{r fig.height=5, fig.width=8}
+response_issues %>% 
+  filter(part == "d", score == 0, example_type == "piecewise linear", nature_of_mistake != "domain has gaps") %>% 
+  plot_responses(title = "Misc incorrect")
+```
+
+
+
+
+
+
+
+

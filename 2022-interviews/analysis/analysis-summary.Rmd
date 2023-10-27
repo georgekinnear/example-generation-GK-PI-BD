@@ -1,0 +1,248 @@
+---
+title: "Interview responses - analysis of coding"
+author: "George Kinnear"
+date: "2023-02-03"
+always_allow_html: true
+output:
+  html_document:
+    df_print: paged
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+# Tables
+library(gt)
+library(knitr)
+library(kableExtra)
+basic_kable = function(df) {
+  df %>% 
+    kable() %>%
+    kable_styling(bootstrap_options = "striped", full_width = F)
+}
+rmarkdown::html_document(df_print = knitr::kable)
+options(knitr.kable.NA = '')
+
+# Set preferred styling
+theme_set(theme_minimal())
+```
+
+## Data
+
+```{r}
+raw_data <- read_csv("analysis_summary.csv", show_col_types = FALSE) %>% 
+  janitor::clean_names()
+
+raw_data %>% 
+  basic_kable()
+```
+
+## Tidy data
+
+```{r}
+tidy_data <- raw_data %>% 
+  pivot_longer(cols = contains("task"), names_to = "task", values_to = "analysis") %>% 
+  separate(analysis, into = c("code", "correctness"), sep = " - ") %>% 
+  mutate(
+    code = case_when(
+      code == "T\\&E" ~ "1_trial_and_error",
+      code %in% c("TRP", "TPR", "TR") ~ "2_transformation",
+      code == "PAn" ~ "3_pre_analysis",
+      TRUE ~ code
+    ),
+    correctness = case_when(
+      correctness == "w" ~ 0,
+      correctness == "c" ~ 1
+    ) %>% as.factor(),
+    task = str_replace(task, "_", " ") %>% str_to_title()
+  )
+
+tidy_data %>% 
+  basic_kable()
+```
+
+## Plot
+
+```{r}
+tidy_data %>% 
+  ggplot(aes(x = code, y = name, shape = code, colour = correctness)) +
+  geom_point(size = 3) +
+  facet_grid(cols = vars(task), rows = vars(score), scales = "free_y", space = "free_y") +
+  theme(axis.title.y=element_blank(),
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.spacing.x = unit(1.5, "lines")
+        )
+```
+
+## Table
+
+```{r}
+tidy_data %>% 
+  # no transformation observed for task 1, so add a dummy row to force the column to appear
+  add_row(name = "Sally", score = 0, task = "Task 1", code = "2_transformation") %>% 
+  # sort by task and code so that the columns come out in order
+  arrange(task, code) %>% 
+  mutate(code = case_when(
+    str_detect(code, "trial") ~ "T&E",
+    str_detect(code, "trans") ~ "TR",
+    str_detect(code, "anal") ~ "PA"
+  )) %>% 
+  pivot_wider(names_from = c("task", "code"), values_from = "correctness", names_sep = "___") %>% 
+  arrange(score, name) %>% 
+  mutate(across(
+    contains("___"),
+    ~ str_replace(., "1", "✔") %>% str_replace("0", "•")
+  )) %>% 
+  gt(groupname_col = "score") %>% 
+  tab_spanner_delim(delim = "___") %>% 
+  sub_missing(missing_text = "") %>%
+  opt_horizontal_padding(scale = 1)
+```
+
+
+
+## Summaries
+
+```{r}
+tidy_data %>% 
+  group_by(task, code) %>% 
+  tally() %>% 
+  ggplot(aes(x = task, y = n, fill = code))  + 
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis_d(option = "plasma", begin = 0.8, end = 0.2) +
+  labs(x = "", y = "Number of participants", fill = "Strategy used") +
+  theme(legend.position = "top")
+```
+
+```{r}
+tidy_data %>% 
+  group_by(task, correctness) %>% 
+  tally() %>% 
+  mutate(correctness = ifelse(correctness == 0, "Incorrect", "Correct") %>% fct_rev()) %>% 
+  ggplot(aes(x = task, y = n, fill = correctness))  + 
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis_d(option = "plasma", begin = 0.8, end = 0.2) +
+  labs(x = "", y = "Number of participants", fill = "Correctness") +
+  theme(legend.position = "top")
+```
+
+
+```{r}
+tidy_data %>% 
+  group_by(task, code, correctness) %>% 
+  tally() %>% 
+  ggplot(aes(x = task, y = n, fill = code, alpha = correctness))  + 
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis_d("Strategy used", option = "plasma", begin = 0.8, end = 0.2) +
+  scale_alpha_discrete("Correctness", range = c(0.5, 1)) +
+  labs(x = "", y = "Number of participants") +
+  theme(legend.position = "top")
+```
+
+
+
+```{r}
+tidy_data %>% 
+  group_by(task, code, correctness) %>% 
+  tally() %>% 
+  mutate(
+    correctness = ifelse(correctness == 0, "Incorrect", "Correct") %>% fct_rev()
+  ) %>% 
+  ggplot(aes(x = n, y = code, fill = correctness))  + 
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis_d("Correcness", option = "plasma", begin = 0.8, end = 0.2) +
+  facet_grid(rows = vars(task)) +
+  scale_y_discrete(limits = unique(tidy_data$code) %>% sort() %>% rev()) +
+  labs(y = "", x = "Number of participants") +
+  theme(legend.position = "top")
+```
+
+
+```{r}
+tidy_data %>% 
+  group_by(task, code, correctness) %>% 
+  tally() %>% 
+  mutate(
+    correctness = ifelse(correctness == 0, "Incorrect", "Correct") %>% fct_rev()
+  ) %>% 
+  ggplot(aes(x = n, y = correctness, fill = code))  + 
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis_d("Strategy used", option = "plasma", begin = 0.8, end = 0.2) +
+  facet_grid(rows = vars(task)) +
+  scale_y_discrete(limits = c("Incorrect", "Correct")) +
+  labs(y = "", x = "Number of participants") +
+  theme(legend.position = "top")
+```
+
+## Splitting by format
+
+```{r}
+tidy_data %>% 
+  mutate(
+    correctness = ifelse(correctness == 0, "Incorrect", "Correct") %>% fct_rev(),
+    mode = ifelse(str_sub(name, 1, 1) == "S", "STACK", "Paper"),
+    name = fct_reorder(name, score, .desc = TRUE)
+  ) %>% 
+  
+  ggplot(aes(
+    x = code,
+    y = name,
+    #shape = code,
+    colour = correctness,
+    size = correctness
+  )) +
+  geom_point() +
+  facet_grid(cols = vars(task), rows = vars(mode), scales = "free_y", space = "free_y", switch = "y") +
+  scale_x_discrete(
+    labels = c("1_trial_and_error" = "T&E",
+                         "2_transformation" = "Tr",
+                         "3_pre_analysis" = "DA"),
+    position = "top"
+  ) +
+  # scale_shape("Strategy used",
+  #             labels = c("1_trial_and_error" = "Trial and error",
+  #                        "2_transformation" = "Transformation",
+  #                        "3_pre_analysis" = "Pre-analysis")) +
+  scale_colour_manual("Correctness", values = c("Correct" = "#385723", "Incorrect" = "#E26868")) +
+  scale_size_manual("Correctness", values = c("Correct" = 3.5, "Incorrect" = 2)) +
+  theme(axis.title.y=element_blank(),
+        axis.title.x=element_blank(),
+        #axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        panel.spacing.x = unit(1.5, "lines"),
+        panel.spacing.y = unit(1.5, "lines"),
+        strip.text.y = element_text(angle = 0, size = 10),
+        strip.placement = "outside"
+        )
+
+ggsave(here::here("paper/FIG_qual_analysis.pdf"), units = "cm", width = 15, height = 10)
+```
+
+Note for discussion: lots of transformation used (successfully) in Task 3 on paper. Transformation not used so successfully on STACK - perhaps because the previous examples are not visible between tasks?
+
+
+```{r}
+tidy_data %>% 
+  mutate(
+    correctness = ifelse(correctness == 0, "Incorrect", "Correct") %>% fct_rev(),
+    mode = ifelse(str_sub(name, 1, 1) == "S", "STACK", "Paper")
+  ) %>% 
+  group_by(mode, task, code) %>% 
+  tally() %>% 
+  ggplot(aes(x = task, y = n, fill = code))  + 
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_viridis_d(option = "plasma", begin = 0.8, end = 0.2) +
+  facet_grid(cols = vars(mode)) +
+  labs(x = "", y = "Number of participants", fill = "Strategy used") +
+  theme(legend.position = "top")
+```
+
+
+
+

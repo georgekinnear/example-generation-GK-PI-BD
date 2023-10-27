@@ -1,0 +1,1333 @@
+coder,script,part,correct,gives_equation,example_type,nature_of_mistake,notes
+GK,1,a,Y,N,other - unclear,NA,NA
+GK,1,b,Y,N,quadratic,NA,NA
+GK,1,c,Y,N,cubic,NA,NA
+GK,1,d,N,N,other - exponential,axis not labelled,x-axis not labelled
+GK,2,a,N,Y,linear,"domain is [0,1/2]; surjective but should not be",confusing domain and range?
+GK,2,b,N,Y,linear,"image is [1/2,1]; domain has gaps",NA
+GK,2,c,Y,Y,piecewise linear,NA,NA
+GK,2,d,Y,N,piecewise linear,NA,NA
+GK,3,a,Y,Y,linear,NA,NA
+GK,3,b,Y,Y,piecewise linear,NA,NA
+GK,3,c,Y,Y,quadratic,NA,NA
+GK,3,d,Y,Y,piecewise linear,NA,NA
+GK,4,a,Y,Y,linear,NA,NA
+GK,4,b,Y,Y,quadratic,NA,NA
+GK,4,c,Y,Y,quadratic,NA,NA
+GK,4,d,Y,Y,piecewise linear,NA,NA
+GK,5,a,Y,N,linear,NA,NA
+GK,5,b,Y,N,quadratic,NA,NA
+GK,5,c,Y,N,quadratic,NA,NA
+GK,5,d,N,N,piecewise linear,domain has gaps,does not reach x=0
+GK,6,a,Y,N,linear,NA,NA
+GK,6,b,N,N,not a function,not a function,sideways parabola
+GK,6,c,N,N,not a function,not a function,sideways parabola
+GK,6,d,N,N,piecewise linear,domain has gaps,gaps in the domain
+GK,7,a,Y,N,linear,NA,NA
+GK,7,b,Y,N,quadratic,NA,NA
+GK,7,c,Y,N,cubic,NA,NA
+GK,7,d,Y,N,other - unclear,NA,NA
+GK,8,a,Y,N,linear,NA,NA
+GK,8,b,Y,N,quadratic,NA,NA
+GK,8,c,Y,N,quadratic,NA,NA
+GK,8,d,Y,N,other - unclear,NA,NA
+GK,9,a,Y,Y,linear,NA,NA
+GK,9,b,Y,N,quadratic,NA,NA
+GK,9,c,Y,N,quadratic,NA,NA
+GK,9,d,Y,Y,piecewise linear,NA,NA
+GK,10,a,Y,N,other - unclear,NA,NA
+GK,10,b,Y,N,other - unclear,NA,NA
+GK,10,c,Y,N,other - unclear,NA,NA
+GK,10,d,Y,N,other - unclear,NA,NA
+GK,11,a,N,N,linear,surjective but should not be,NA
+GK,11,b,N,N,cubic,"image too large but still a subset of [0,1]",NA
+GK,11,c,Y,N,other - unclear,NA,NA
+GK,11,d,N,N,piecewise linear,not injective,NA
+GK,12,a,Y,N,linear,NA,NA
+GK,12,b,Y,N,quadratic,NA,NA
+GK,12,c,Y,N,quadratic,NA,NA
+GK,12,d,Y,N,piecewise other,NA,NA
+GK,13,a,Y,N,other - unclear,NA,NA
+GK,13,b,Y,N,quadratic,NA,NA
+GK,13,c,Y,N,quadratic,NA,NA
+GK,13,d,Y,N,piecewise linear,NA,NA
+GK,14,a,Y,Y,linear,NA,NA
+GK,14,b,Y,Y,piecewise linear,NA,uses abs
+GK,14,c,Y,Y,piecewise linear,NA,uses abs
+GK,14,d,Y,Y,piecewise other,NA,discontinuous function
+GK,15,a,Y,Y,linear,NA,NA
+GK,15,b,Y,Y,piecewise linear,NA,NA
+GK,15,c,Y,Y,piecewise linear,NA,NA
+GK,15,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,16,a,N,Y,linear,surjective but should not be,NA
+GK,16,b,N,Y,quadratic,"image too large but still a subset of [0,1]",INTERESTING: seems to be thinking they can choose a subset of the domain
+GK,16,c,Y,Y,quadratic,NA,same example as for part b
+GK,16,d,Y,Y,piecewise linear,NA,NA
+GK,17,a,Y,Y,linear,NA,NA
+GK,17,b,N,Y,piecewise linear,image too small,discontinuous function
+GK,17,c,Y,Y,piecewise linear,NA,NA
+GK,17,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,18,a,Y,N,linear,NA,NA
+GK,18,b,Y,N,cubic,NA,NA
+GK,18,c,Y,N,cubic,NA,NA
+GK,18,d,Y,N,piecewise linear,NA,NA
+GK,19,a,Y,Y,linear,NA,NA
+GK,19,b,N,Y,linear,image too small,horizontal line y=1/4
+GK,19,c,Y,Y,piecewise linear,NA,uses abs
+GK,19,d,Y,Y,piecewise linear,NA,NA
+GK,20,a,Y,N,linear,NA,NA
+GK,20,b,Y,N,cubic,NA,NA
+GK,20,c,Y,N,cubic,NA,NA
+GK,20,d,Y,N,other - unclear,NA,NA
+GK,21,a,Y,N,linear,NA,NA
+GK,21,b,Y,N,other - unclear,NA,NA
+GK,21,c,Y,N,other - unclear,NA,NA
+GK,21,d,N,N,linear,domain has gaps,has a gap around x=0.4
+GK,22,a,Y,N,linear,NA,NA
+GK,22,b,Y,N,piecewise linear,NA,NA
+GK,22,c,Y,N,piecewise linear,NA,NA
+GK,22,d,Y,N,piecewise linear,NA,NA
+GK,23,a,Y,N,linear,NA,NA
+GK,23,b,Y,N,quadratic,NA,NA
+GK,23,c,Y,N,cubic,NA,NA
+GK,23,d,Y,N,other - unclear,NA,NA
+GK,24,a,Y,Y,linear,NA,NA
+GK,24,b,Y,Y,quadratic,NA,NA
+GK,24,c,Y,Y,quadratic,NA,NA
+GK,24,d,N,Y,other - exponential,"image goes beyond [0,1]","ingeneous use of exponential function, but its range exceeds [0,1] at x=0"
+GK,25,a,Y,N,linear,NA,NA
+GK,25,b,Y,N,other - unclear,NA,NA
+GK,25,c,Y,N,other - unclear,NA,NA
+GK,25,d,Y,N,other - unclear,NA,NA
+GK,26,a,Y,N,linear,NA,NA
+GK,26,b,Y,N,quadratic,NA,NA
+GK,26,c,Y,N,quadratic,NA,NA
+GK,26,d,Y,N,other - unclear,NA,NA
+GK,27,a,Y,N,linear,NA,NA
+GK,27,b,Y,N,quadratic,NA,NA
+GK,27,c,Y,N,quadratic,NA,NA
+GK,27,d,Y,N,piecewise linear,NA,NA
+GK,28,a,Y,N,other - unclear,NA,NA
+GK,28,b,Y,N,cubic,NA,NA
+GK,28,c,Y,N,cubic,NA,NA
+GK,28,d,Y,N,other - unclear,NA,NA
+GK,29,a,Y,N,cubic,NA,"interesting - first time I see an answer to a that is not the ""simplest possible"""
+GK,29,b,Y,N,cubic,NA,NA
+GK,29,c,Y,N,cubic,NA,NA
+GK,29,d,Y,N,other - unclear,NA,NA
+GK,30,a,N,N,piecewise other,domain has gaps; image too small,domain is x=0 only
+GK,30,b,N,N,piecewise other,domain has gaps,"two points at (0,1/2) and (1/2, 1/2)"
+GK,30,c,N,N,quadratic,"image is [1/2,1]",not surjective
+GK,30,d,N,N,linear,surjective but should not be,is sujective but should not be
+GK,31,a,Y,Y,linear,NA,NA
+GK,31,b,N,Y,piecewise linear,"image too large but still a subset of [0,1]","has image [0,1]"
+GK,31,c,Y,Y,quadratic,NA,NA
+GK,31,d,N,Y,piecewise linear,surjective but should not be; not injective,fails to be injective; is surjective but should not be
+GK,32,a,Y,Y,linear,NA,NA
+GK,32,b,Y,Y,quadratic,NA,NA
+GK,32,c,Y,Y,quadratic,NA,NA
+GK,32,d,Y,Y,piecewise linear,NA,NA
+GK,33,a,Y,Y,linear,NA,NA
+GK,33,b,Y,Y,quadratic,NA,NA
+GK,33,c,Y,Y,quadratic,NA,NA
+GK,33,d,Y,Y,piecewise linear,NA,NA
+GK,34,a,Y,N,linear,NA,NA
+GK,34,b,Y,N,quadratic,NA,NA
+GK,34,c,N,N,piecewise linear,"image too large but still a subset of [0,1]; injective but should not be",is injective but should not be
+GK,34,d,Y,N,piecewise linear,NA,NA
+GK,35,a,Y,N,linear,NA,NA
+GK,35,b,Y,N,trig,NA,sine-like curve
+GK,35,c,Y,N,quadratic,NA,NA
+GK,35,d,N,N,other - unclear,domain has gaps,undefined near x=0
+GK,36,a,Y,N,linear,NA,NA
+GK,36,b,Y,N,quadratic,NA,NA
+GK,36,c,Y,N,quadratic,NA,NA
+GK,36,d,Y,N,piecewise linear,NA,NA
+GK,37,a,Y,N,linear,NA,NA
+GK,37,b,Y,N,cubic,NA,NA
+GK,37,c,Y,N,cubic,NA,NA
+GK,37,d,Y,N,other - unclear,NA,NA
+GK,38,a,Y,Y,quadratic,NA,NA
+GK,38,b,Y,Y,quadratic,NA,same example as for part a - unusually
+GK,38,c,Y,Y,trig,NA,sin(pi*x)
+GK,38,d,Y,Y,piecewise linear,NA,NA
+GK,39,a,Y,N,linear,NA,NA
+GK,39,b,Y,N,other - unclear,NA,NA
+GK,39,c,N,N,other - unclear,image too small,does not reach y=1
+GK,39,d,Y,N,piecewise linear,NA,discontinuous function
+GK,40,a,Y,N,linear,NA,NA
+GK,40,b,Y,N,cubic,NA,NA
+GK,40,c,Y,N,quadratic,NA,NA
+GK,40,d,N,N,other - unclear,domain has gaps,undefined near x=0
+GK,41,a,Y,Y,linear,NA,NA
+GK,41,b,Y,N,other - unclear,NA,NA
+GK,41,c,Y,N,quadratic,NA,NA
+GK,41,d,Y,N,other - unclear,NA,NA
+GK,42,a,Y,Y,linear,NA,NA
+GK,42,b,Y,Y,quadratic,NA,NA
+GK,42,c,Y,Y,quadratic,NA,NA
+GK,42,d,Y,Y,piecewise linear,NA,NA
+GK,43,a,Y,Y,linear,NA,NA
+GK,43,b,Y,Y,quadratic,NA,dodgy sketch!
+GK,43,c,Y,Y,quadratic,NA,NA
+GK,43,d,N,Y,other - 1/x,"image goes beyond [0,1]","DISCUSS: 0.4/(0.3+x) - goes beyond [0,1] at x=0 - has the focus on a formula (fitting the two given points) here led the student astray?"
+GK,44,a,N,Y,linear,"domain is [0,1/2]; surjective but should not be","domain is [0,1/2]"
+GK,44,b,N,N,quadratic,"image too large but still a subset of [0,1]","image is [0,1]"
+GK,44,c,Y,N,quadratic,NA,NA
+GK,44,d,Y,N,other - unclear,NA,NA
+GK,45,a,Y,Y,linear,NA,NA
+GK,45,b,Y,Y,quadratic,NA,NA
+GK,45,c,Y,Y,quadratic,NA,NA
+GK,45,d,Y,Y,piecewise linear,NA,NA
+GK,46,a,Y,N,linear,NA,NA
+GK,46,b,N,N,linear,injective but should not be,is injective but should not be
+GK,46,c,Y,N,piecewise linear,NA,NA
+GK,46,d,Y,N,piecewise linear,NA,discontinuous function
+GK,47,a,Y,N,linear,NA,NA
+GK,47,b,Y,N,piecewise linear,NA,NA
+GK,47,c,Y,N,quadratic,NA,NA
+GK,47,d,Y,N,piecewise linear,NA,NA
+GK,48,a,Y,Y,linear,NA,formula is wrong - y=2x given but y=x/2 plotted
+GK,48,b,N,Y,quadratic,image too small,"image is [0,1/4]"
+GK,48,c,N,Y,quadratic,image too small,"INTERESTING - same example as for b, a strange misconception here"
+GK,48,d,N,Y,piecewise linear,not injective,not injective
+GK,49,a,Y,Y,linear,NA,NA
+GK,49,b,Y,Y,quadratic,NA,NA
+GK,49,c,Y,Y,quadratic,NA,NA
+GK,49,d,Y,Y,piecewise linear,NA,NA
+GK,50,a,Y,N,linear,NA,NA
+GK,50,b,N,N,quadratic,"domain is [0,1/2]; surjective but should not be","domain is [0,1/2]"
+GK,50,c,Y,N,quadratic,NA,NA
+GK,50,d,Y,N,piecewise linear,NA,NA
+GK,51,a,Y,Y,linear,NA,NA
+GK,51,b,Y,Y,quadratic,NA,NA
+GK,51,c,Y,Y,quadratic,NA,NA
+GK,51,d,Y,Y,piecewise linear,NA,NA
+GK,52,a,Y,N,linear,NA,NA
+GK,52,b,Y,N,trig,NA,NA
+GK,52,c,Y,N,trig,NA,NA
+GK,52,d,Y,N,other - unclear,NA,NA
+GK,53,a,Y,N,other - unclear,NA,NA
+GK,53,b,N,N,quadratic,"image too large but still a subset of [0,1]",extends above y=1/2
+GK,53,c,Y,N,quadratic,NA,NA
+GK,53,d,N,N,other - unclear,not injective,not injective
+GK,54,a,Y,Y,linear,NA,NA
+GK,54,b,Y,Y,quadratic,NA,NA
+GK,54,c,N,Y,quadratic,"image goes beyond [0,1]","image is [0,2]"
+GK,54,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,55,a,Y,N,linear,NA,NA
+GK,55,b,Y,N,quadratic,NA,NA
+GK,55,c,Y,N,quadratic,NA,NA
+GK,55,d,Y,N,piecewise linear,NA,discontinuous function
+GK,56,a,Y,N,linear,NA,NA
+GK,56,b,Y,N,piecewise linear,NA,NA
+GK,56,c,Y,N,quadratic,NA,NA
+GK,56,d,N,N,piecewise linear,not injective,not injective
+GK,57,a,Y,Y,linear,NA,NA
+GK,57,b,Y,Y,quadratic,NA,NA
+GK,57,c,Y,Y,quadratic,NA,NA
+GK,57,d,N,Y,piecewise other,undefined at a point,undefined when x=0
+GK,58,a,N,N,linear,"domain is [0,1/2]","domain is [0,1/2]"
+GK,58,b,N,N,piecewise linear,domain has gaps,domain has a gap between 0.2 and 0.3
+GK,58,c,N,N,piecewise linear,domain has gaps,domain has a gap between 0.2 and 0.3
+GK,58,d,Y,N,piecewise linear,NA,discontinuous function
+GK,59,a,Y,Y,linear,NA,NA
+GK,59,b,Y,Y,quadratic,NA,NA
+GK,59,c,Y,Y,quadratic,NA,NA
+GK,59,d,N,N,piecewise other,domain has gaps; not injective,has a gap between 0.2 and 0.5; not injective
+GK,60,a,Y,N,linear,NA,NA
+GK,60,b,Y,N,piecewise linear,NA,NA
+GK,60,c,Y,N,quadratic,NA,NA
+GK,60,d,Y,N,piecewise other,NA,discontinuous function
+GK,61,a,Y,N,linear,NA,NA
+GK,61,b,Y,N,piecewise linear,NA,NA
+GK,61,c,Y,N,piecewise linear,NA,NA
+GK,61,d,Y,N,other - unclear,NA,NA
+GK,62,a,Y,Y,linear,NA,NA
+GK,62,b,Y,Y,trig,NA,abs(1/2*cos(2*pi*x))
+GK,62,c,N,Y,trig,"image goes beyond [0,1]","sin(4*pi*x) - image is [-1,1]"
+GK,62,d,N,N,other - unclear,"image goes beyond [0,1]; undefined at a point","image is (-infty, 0.9); undefined when x=1"
+GK,63,a,N,N,linear,"domain is [0,1/2]","domain is [0,1/2]"
+GK,63,b,N,N,other - unclear,"domain is [0,1/2]","domain is [0,1/2]"
+GK,63,c,Y,N,piecewise linear,NA,NA
+GK,63,d,Y,N,piecewise other,NA,discontinuous function
+GK,64,a,Y,N,linear,NA,NA
+GK,64,b,Y,Y,trig,NA,abs(1/2*cos(2*pi*x))
+GK,64,c,N,Y,trig,"image goes beyond [0,1]","cos(2*pi*x) - image is [-1,1]"
+GK,64,d,N,N,other - unclear,"image goes beyond [0,1]; undefined at a point","image is (-infty, 0.9); undefined when x=1"
+GK,65,a,Y,Y,linear,NA,NA
+GK,65,b,Y,N,quadratic,NA,NA
+GK,65,c,Y,N,quadratic,NA,NA
+GK,65,d,N,Y,linear,surjective but should not be,surjective when it should not be
+GK,66,a,Y,Y,linear,NA,NA
+GK,66,b,Y,N,quadratic,NA,NA
+GK,66,c,N,N,not a function,not a function,vertical line at x=1/2
+GK,66,d,N,N,piecewise other,domain has gaps,"has gaps at x=0.1, 0.7 and 1"
+GK,67,a,Y,Y,linear,NA,NA
+GK,67,b,N,Y,quadratic,image too small,"image is [0,0.4]"
+GK,67,c,Y,Y,quadratic,NA,"formula is wrong, does not match sketch"
+GK,67,d,Y,N,other - unclear,NA,NA
+GK,68,a,Y,Y,linear,NA,NA
+GK,68,b,Y,Y,quadratic,NA,NA
+GK,68,c,Y,Y,quadratic,NA,NA
+GK,68,d,Y,Y,piecewise linear,NA,NA
+GK,69,a,N,N,linear,"domain is [0,1/2]; surjective but should not be","image is [0,1]; domain is [0,1/2]"
+GK,69,b,N,N,piecewise linear,"image too large but still a subset of [0,1]","image is [0,1]"
+GK,69,c,Y,N,piecewise linear,NA,NA
+GK,69,d,Y,N,piecewise linear,NA,NA
+GK,70,a,Y,Y,linear,NA,NA
+GK,70,b,Y,Y,trig,NA,1/2 * sin(pi*x)
+GK,70,c,Y,Y,trig,NA,sin(pi*x)
+GK,70,d,N,Y,trig,"image goes beyond [0,1]",DISCUSS: another example of formula fitting
+GK,71,a,Y,Y,linear,NA,NA
+GK,71,b,Y,Y,quadratic,NA,NA
+GK,71,c,N,Y,piecewise linear,"image is [0,1/2]","note surjective - image is [0,1/2]"
+GK,71,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,72,a,N,N,linear,"image is [1/2,1]","image is [1/2,1]"
+GK,72,b,N,N,linear,image too small,image is y=1/2 only
+GK,72,c,N,N,not a function,not a function,rotated V shape
+GK,72,d,N,N,linear,surjective but should not be,surjective when it should not be
+GK,73,a,Y,N,linear,NA,NA
+GK,73,b,Y,N,piecewise linear,NA,NA
+GK,73,c,Y,N,piecewise linear,NA,NA
+GK,73,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,74,a,Y,Y,linear,NA,NA
+GK,74,b,Y,Y,piecewise linear,NA,NA
+GK,74,c,Y,Y,quadratic,NA,NA
+GK,74,d,Y,Y,piecewise linear,NA,NA
+GK,75,a,Y,Y,linear,NA,NA
+GK,75,b,Y,Y,piecewise linear,NA,uses abs
+GK,75,c,Y,Y,piecewise linear,NA,uses abs
+GK,75,d,Y,Y,piecewise linear,NA,NA
+GK,76,a,Y,N,other - unclear,NA,NA
+GK,76,b,Y,N,cubic,NA,NA
+GK,76,c,N,N,other - unclear,"image too large but still a subset of [0,1]","image is [0,0.9]"
+GK,76,d,Y,N,piecewise linear,NA,NA
+GK,77,a,Y,N,linear,NA,NA
+GK,77,b,Y,N,quadratic,NA,NA
+GK,77,c,Y,N,quadratic,NA,NA
+GK,77,d,Y,N,piecewise linear,NA,discontinuous function
+GK,78,a,Y,N,linear,NA,NA
+GK,78,b,Y,N,quadratic,NA,NA
+GK,78,c,Y,N,quadratic,NA,NA
+GK,78,d,Y,N,other - unclear,NA,NA
+GK,79,a,Y,N,linear,NA,NA
+GK,79,b,Y,N,quadratic,NA,NA
+GK,79,c,Y,N,quadratic,NA,NA
+GK,79,d,Y,N,other - unclear,NA,NA
+GK,80,a,Y,N,linear,NA,NA
+GK,80,b,Y,N,other - unclear,NA,NA
+GK,80,c,N,N,other - unclear,"image is [0,1/2]","image is [0,1/2]"
+GK,80,d,Y,N,piecewise other,NA,discontinuous function
+GK,81,a,Y,N,linear,NA,NA
+GK,81,b,Y,N,cubic,NA,NA
+GK,81,c,Y,N,cubic,NA,NA
+GK,81,d,Y,N,piecewise linear,NA,discontinuous function
+GK,82,a,Y,N,linear,NA,NA
+GK,82,b,Y,N,piecewise linear,NA,NA
+GK,82,c,Y,N,quadratic,NA,NA
+GK,82,d,Y,N,piecewise linear,NA,discontinuous function
+GK,83,a,Y,Y,linear,NA,NA
+GK,83,b,Y,Y,piecewise linear,NA,NA
+GK,83,c,Y,Y,quadratic,NA,NA
+GK,83,d,Y,Y,piecewise linear,NA,NA
+GK,84,a,Y,N,other - unclear,NA,NA
+GK,84,b,Y,N,cubic,NA,NA
+GK,84,c,Y,N,cubic,NA,NA
+GK,84,d,Y,N,piecewise linear,NA,NA
+GK,85,a,Y,Y,linear,NA,NA
+GK,85,b,Y,Y,quadratic,NA,NA
+GK,85,c,Y,Y,quadratic,NA,NA
+GK,85,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,86,a,Y,Y,linear,NA,NA
+GK,86,b,Y,Y,quadratic,NA,NA
+GK,86,c,Y,Y,quadratic,NA,NA
+GK,86,d,N,Y,linear,"domain is [0,1/2]","domain is [0,1/2]"
+GK,87,a,Y,N,linear,NA,NA
+GK,87,b,Y,N,piecewise linear,NA,NA
+GK,87,c,Y,N,piecewise linear,NA,NA
+GK,87,d,Y,N,other - unclear,NA,NA
+GK,88,a,Y,Y,linear,NA,NA
+GK,88,b,Y,Y,piecewise linear,NA,discontinuous function
+GK,88,c,Y,Y,piecewise linear,NA,NA
+GK,88,d,Y,Y,piecewise linear,NA,NA
+GK,89,a,Y,N,piecewise linear,NA,same example as for part b
+GK,89,b,Y,N,piecewise linear,NA,NA
+GK,89,c,N,N,not a function,not a function,mapping diagram
+GK,89,d,N,N,other - unclear,undefined at a point,omits x=1
+GK,90,a,Y,N,linear,NA,NA
+GK,90,b,Y,N,quadratic,NA,NA
+GK,90,c,Y,N,quadratic,NA,NA
+GK,90,d,Y,N,other - unclear,NA,NA
+GK,91,a,Y,N,linear,NA,NA
+GK,91,b,Y,N,quadratic,NA,NA
+GK,91,c,Y,N,quadratic,NA,NA
+GK,91,d,Y,N,piecewise other,NA,NA
+GK,92,a,Y,N,linear,NA,NA
+GK,92,b,Y,N,quadratic,NA,NA
+GK,92,c,Y,N,quadratic,NA,NA
+GK,92,d,N,N,piecewise linear,domain has gaps,"omits (0.2, 0.5) from domain"
+GK,93,a,Y,Y,linear,NA,NA
+GK,93,b,N,Y,cubic,"image goes beyond [0,1]",includes negative y-values
+GK,93,c,N,Y,piecewise linear,"image is [0,1/2]","uses abs; image is [0,1/2] therefore not sujective when it should be"
+GK,93,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,94,a,Y,Y,linear,NA,NA
+GK,94,b,Y,Y,quadratic,NA,NA
+GK,94,c,Y,Y,quadratic,NA,NA
+GK,94,d,Y,N,other - unclear,NA,NA
+GK,95,a,Y,N,linear,NA,NA
+GK,95,b,Y,N,piecewise linear,NA,NA
+GK,95,c,N,N,piecewise linear,undefined at a point,omits one point
+GK,95,d,N,N,piecewise linear,undefined at a point,omits one point
+GK,96,a,Y,N,linear,NA,NA
+GK,96,b,Y,N,quadratic,NA,NA
+GK,96,c,Y,N,other - unclear,NA,NA
+GK,96,d,Y,N,piecewise linear,NA,NA
+GK,97,a,N,N,no answer visible,no answer visible,student did not submit answers
+GK,97,b,N,N,no answer visible,no answer visible,NA
+GK,97,c,N,N,no answer visible,no answer visible,NA
+GK,97,d,N,N,no answer visible,no answer visible,NA
+GK,98,a,Y,N,other - unclear,NA,NA
+GK,98,b,Y,N,quadratic,NA,NA
+GK,98,c,Y,N,quadratic,NA,NA
+GK,98,d,Y,N,piecewise linear,NA,NA
+GK,99,a,Y,N,other - unclear,NA,NA
+GK,99,b,Y,N,quadratic,NA,NA
+GK,99,c,Y,N,quadratic,NA,NA
+GK,99,d,N,N,piecewise linear,domain has gaps,omits a portion above x=0.5
+GK,100,a,Y,N,linear,NA,NA
+GK,100,b,Y,N,quadratic,NA,NA
+GK,100,c,Y,N,quadratic,NA,NA
+GK,100,d,Y,N,other - unclear,NA,NA
+GK,101,a,Y,Y,linear,NA,NA
+GK,101,b,Y,Y,piecewise linear,NA,NA
+GK,101,c,Y,Y,quadratic,NA,NA
+GK,101,d,Y,Y,piecewise linear,NA,NA
+GK,102,a,Y,Y,linear,NA,NA
+GK,102,b,Y,Y,quadratic,NA,NA
+GK,102,c,Y,Y,quadratic,NA,NA
+GK,102,d,Y,Y,piecewise linear,NA,NA
+GK,103,a,Y,N,linear,NA,NA
+GK,103,b,Y,N,other - unclear,NA,NA
+GK,103,c,Y,N,other - unclear,NA,NA
+GK,103,d,N,N,piecewise linear,domain has gaps,omits large parts of domain
+GK,104,a,Y,N,linear,NA,NA
+GK,104,b,Y,N,quadratic,NA,NA
+GK,104,c,Y,N,quadratic,NA,NA
+GK,104,d,N,N,linear,surjective but should not be,surjective when it should not be
+GK,105,a,Y,Y,other - ln(x),NA,NA
+GK,105,b,Y,Y,quadratic,NA,NA
+GK,105,c,N,Y,quadratic,image too small,"image is [0,4/9]"
+GK,105,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,106,a,Y,N,linear,NA,NA
+GK,106,b,Y,N,quadratic,NA,NA
+GK,106,c,Y,N,quadratic,NA,NA
+GK,106,d,N,N,other - unclear,domain has gaps,undefined for x>0.6
+GK,107,a,N,N,linear,"domain is [0,1/2]","domain is [0,1/2]"
+GK,107,b,N,N,quadratic,"domain is [0,1/2]","domain is [0,1/2]"
+GK,107,c,Y,N,quadratic,NA,NA
+GK,107,d,N,N,other - unclear,domain has gaps,undefined for x>0.6
+GK,108,a,Y,N,linear,NA,NA
+GK,108,b,Y,N,other - unclear,NA,NA
+GK,108,c,N,N,other - unclear,"image is [0,1/2]","image is [0,1/2]"
+GK,108,d,Y,N,other - unclear,NA,NA
+GK,109,a,Y,Y,linear,NA,NA
+GK,109,b,Y,Y,quadratic,NA,NA
+GK,109,c,Y,Y,quadratic,NA,NA
+GK,109,d,N,N,other - unclear,surjective but should not be,surjective when it should not be
+GK,110,a,Y,Y,linear,NA,NA
+GK,110,b,N,Y,quadratic,NA,"sketch suggests values near x=0 are undefined, while formula gives values outside [0,1]"
+GK,110,c,N,Y,not a function,not a function,vertical line
+GK,110,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,111,a,Y,N,linear,NA,NA
+GK,111,b,Y,Y,quadratic,NA,NA
+GK,111,c,Y,Y,piecewise linear,NA,uses abs
+GK,111,d,Y,Y,piecewise linear,NA,NA
+GK,112,a,Y,Y,linear,NA,NA
+GK,112,b,N,Y,quadratic,image too small,"image is [1/4,1/2]"
+GK,112,c,N,N,trig,"domain exceeds [0,1]","domain shown is [0,2pi], function does not have the required properties when restricted to [0,1]"
+GK,112,d,Y,N,piecewise linear,NA,discontinuous function
+GK,113,a,Y,N,linear,NA,NA
+GK,113,b,Y,N,piecewise linear,NA,NA
+GK,113,c,Y,N,cubic,NA,NA
+GK,113,d,N,N,piecewise linear,domain has gaps,undefined near x=0
+GK,114,a,Y,Y,linear,NA,NA
+GK,114,b,N,Y,linear,image too small,image is y=1/2 only
+GK,114,c,N,Y,cubic,image too small,not surjective
+GK,114,d,N,Y,linear,surjective but should not be,surjective when it should not be
+GK,115,a,Y,N,linear,NA,NA
+GK,115,b,Y,N,piecewise linear,NA,NA
+GK,115,c,Y,N,piecewise linear,NA,NA
+GK,115,d,Y,N,piecewise other,NA,NA
+GK,116,a,Y,N,linear,NA,NA
+GK,116,b,Y,N,quadratic,NA,NA
+GK,116,c,Y,N,quadratic,NA,NA
+GK,116,d,Y,N,piecewise linear,NA,NA
+GK,117,a,Y,Y,linear,NA,NA
+GK,117,b,Y,Y,quadratic,NA,NA
+GK,117,c,Y,Y,quadratic,NA,NA
+GK,117,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,118,a,N,N,other - unclear,"image too large but still a subset of [0,1]",goes above 1/2
+GK,118,b,N,N,other - unclear,"image too large but still a subset of [0,1]",goes above 1/2
+GK,118,c,N,N,other - unclear,"image goes beyond [0,1]",takes negative values near x=0
+GK,118,d,Y,N,other - unclear,NA,NA
+GK,119,a,Y,Y,linear,NA,NA
+GK,119,b,N,Y,quadratic,image too small,"image is [1/4,1/2]"
+GK,119,c,Y,Y,piecewise linear,NA,uses abs
+GK,119,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,120,a,Y,N,linear,NA,NA
+GK,120,b,Y,N,quadratic,NA,NA
+GK,120,c,Y,N,quadratic,NA,NA
+GK,120,d,Y,N,other - unclear,NA,NA
+GK,121,a,Y,Y,linear,NA,NA
+GK,121,b,Y,Y,quadratic,NA,NA
+GK,121,c,Y,Y,quadratic,NA,NA
+GK,121,d,Y,Y,piecewise linear,NA,discontinuous function
+GK,122,a,Y,N,linear,NA,NA
+GK,122,b,Y,N,piecewise linear,NA,discontinuous function
+GK,122,c,N,N,cubic,axis not labelled,y-axis is unlabelled
+GK,122,d,N,N,piecewise linear,axis not labelled,y-axis is unlabelled; discontinuous function
+GK,123,a,Y,N,linear,NA,NA
+GK,123,b,Y,N,piecewise linear,NA,discontinuous function
+GK,123,c,N,N,other - unclear,axis not labelled,y-axis is unlabelled
+GK,123,d,N,N,piecewise linear,axis not labelled,y-axis is unlabelled; discontinuous function
+GK,124,a,N,N,no answer visible,no answer visible,missing
+GK,124,b,N,N,no answer visible,no answer visible,missing
+GK,124,c,Y,Y,quadratic,NA,NA
+GK,124,d,Y,Y,piecewise linear,NA,NA
+GK,125,a,Y,N,linear,NA,NA
+GK,125,b,Y,N,quadratic,NA,NA
+GK,125,c,Y,N,quadratic,NA,NA
+GK,125,d,Y,N,piecewise linear,NA,NA
+PI,126,a,Y,Y,linear,NA,NA
+PI,126,b,Y,Y,trig,NA,I shall put trig when I have an equation with sin - others that we have classified as quadratic could also be trig if they don't have an equation
+PI,126,c,Y,Y,trig,NA,NA
+PI,126,d,Y,Y,piecewise linear,NA,NA
+PI,127,a,Y,N,quadratic,NA,NA
+PI,127,b,Y,N,quadratic,NA,NA
+PI,127,c,Y,N,cubic,NA,NA
+PI,127,d,Y,N,other - unclear,NA,it is diffcult to say whether it is an curve of some kind or a pw linea
+PI,128,a,Y,N,linear,NA,NA
+PI,128,b,Y,N,cubic,NA,NA
+PI,128,c,Y,N,quadratic,NA,NA
+PI,128,d,Y,N,piecewise linear,NA,NA
+PI,129,a,Y,N,linear,NA,NA
+PI,129,b,Y,N,quadratic,NA,NA
+PI,129,c,Y,N,quadratic,NA,NA
+PI,129,d,Y,N,other - unclear,NA,it is diffcult to say whether it is an curve of some kind or a pw linear
+PI,130,a,Y,Y,linear,NA,NA
+PI,130,b,Y,N,cubic,NA,actually higher degree poly
+PI,130,c,Y,N,cubic,NA,NA
+PI,130,d,Y,Y,piecewise linear,NA,NA
+PI,131,a,Y,Y,linear,NA,NA
+PI,131,b,Y,Y,quadratic,NA,NA
+PI,131,c,Y,Y,quadratic,NA,NA
+PI,131,d,Y,Y,other - exponential,NA,NA
+PI,132,a,Y,Y,linear,NA,NA
+PI,132,b,Y,Y,quadratic,NA,NA
+PI,132,c,Y,Y,quadratic,NA,NA
+PI,132,d,Y,Y,piecewise linear,NA,NA
+PI,133,a,Y,N,linear,NA,NA
+PI,133,b,Y,N,quadratic,NA,NA
+PI,133,c,Y,N,cubic,NA,NA
+PI,133,d,Y,N,other - unclear,NA,it is diffcult to say whether it is an curve of some kind or a pw linea
+PI,134,a,Y,Y,linear,NA,NA
+PI,134,b,Y,Y,trig,NA,NA
+PI,134,c,Y,Y,trig,NA,NA
+PI,134,d,Y,Y,piecewise linear,NA,NA
+PI,135,a,Y,N,linear,NA,NA
+PI,135,b,Y,N,quadratic,NA,NA
+PI,135,c,Y,N,quadratic,NA,NA
+PI,135,d,Y,N,piecewise other,NA,NA
+PI,136,a,Y,N,linear,NA,NA
+PI,136,b,Y,N,cubic,NA,NA
+PI,136,c,Y,N,quadratic,NA,NA
+PI,136,d,N,N,other - unclear,domain has gaps,NA
+PI,137,a,Y,Y,linear,NA,NA
+PI,137,b,Y,Y,quadratic,NA,NA
+PI,137,c,N,Y,quadratic,"image is [0,1/2]",NA
+PI,137,d,Y,Y,piecewise linear,NA,NA
+PI,138,a,Y,Y,linear,NA,NA
+PI,138,b,Y,Y,quadratic,NA,NA
+PI,138,c,Y,Y,quadratic,NA,NA
+PI,138,d,N,N,piecewise linear,domain has gaps,NA
+PI,139,a,Y,Y,linear,NA,NA
+PI,139,b,Y,Y,quadratic,NA,NA
+PI,139,c,Y,Y,quadratic,NA,NA
+PI,139,d,Y,Y,piecewise linear,NA,NA
+PI,140,a,Y,N,other - unclear,NA,NA
+PI,140,b,Y,N,quadratic,NA,NA
+PI,140,c,Y,N,cubic,NA,NA
+PI,140,d,Y,N,piecewise other,NA,NA
+PI,141,a,Y,N,linear,NA,NA
+PI,141,b,Y,N,piecewise linear,NA,NA
+PI,141,c,Y,N,piecewise linear,NA,NA
+PI,141,d,Y,N,piecewise linear,NA,NA
+PI,142,a,Y,Y,linear,NA,NA
+PI,142,b,Y,Y,quadratic,NA,NA
+PI,142,c,N,Y,quadratic,"image is [0,1/2]",NA
+PI,142,d,Y,Y,piecewise linear,NA,NA
+PI,143,a,Y,Y,linear,NA,NA
+PI,143,b,Y,N,quadratic,NA,NA
+PI,143,c,Y,Y,quadratic,NA,NA
+PI,143,d,Y,N,piecewise linear,NA,NA
+PI,144,a,Y,N,linear,NA,NA
+PI,144,b,N,N,piecewise linear,domain has gaps,NA
+PI,144,c,N,N,quadratic,"image is [0,1/2]",NA
+PI,144,d,Y,N,piecewise linear,NA,NA
+PI,145,a,Y,Y,linear,NA,NA
+PI,145,b,Y,Y,piecewise linear,NA,mod
+PI,145,c,Y,Y,quadratic,NA,NA
+PI,145,d,N,Y,piecewise linear,not injective,NA
+PI,146,a,N,N,other - unclear,surjective but should not be,NA
+PI,146,b,N,N,other - unclear,not a function,NA
+PI,146,c,N,N,other - unclear,not a function,NA
+PI,146,d,N,N,piecewise linear,no answer visible,NA
+PI,147,a,Y,Y,linear,NA,NA
+PI,147,b,Y,N,quadratic,NA,NA
+PI,147,c,Y,N,quadratic,NA,NA
+PI,147,d,Y,N,piecewise other,NA,NA
+PI,148,a,Y,Y,linear,NA,NA
+PI,148,b,Y,Y,piecewise linear,NA,mod
+PI,148,c,Y,Y,piecewise linear,NA,mod
+PI,148,d,Y,Y,piecewise linear,NA,NA
+PI,149,a,Y,N,linear,NA,NA
+PI,149,b,Y,N,other - unclear,NA,NA
+PI,149,c,Y,N,cubic,NA,NA
+PI,149,d,Y,N,piecewise linear,NA,NA
+PI,150,a,Y,N,linear,NA,NA
+PI,150,b,Y,N,linear,NA,parallel x axis
+PI,150,c,Y,N,quadratic,NA,NA
+PI,150,d,Y,N,piecewise linear,NA,NA
+PI,151,a,Y,N,linear,NA,NA
+PI,151,b,Y,N,cubic,NA,NA
+PI,151,c,Y,N,quadratic,NA,NA
+PI,151,d,Y,N,piecewise linear,NA,NA
+PI,152,a,Y,Y,linear,NA,NA
+PI,152,b,Y,Y,quadratic,NA,NA
+PI,152,c,Y,Y,quadratic,NA,NA
+PI,152,d,N,Y,cubic,does not pass through the required points,NA
+PI,153,a,Y,N,linear,NA,NA
+PI,153,b,Y,N,quadratic,NA,NA
+PI,153,c,Y,N,quadratic,NA,NA
+PI,153,d,Y,N,piecewise linear,NA,NA
+PI,154,a,Y,N,linear,NA,NA
+PI,154,b,Y,N,cubic,NA,NA
+PI,154,c,Y,N,cubic,NA,NA
+PI,154,d,Y,N,piecewise linear,NA,NA
+PI,155,a,Y,Y,linear,NA,NA
+PI,155,b,N,Y,quadratic,injective but should not be,NA
+PI,155,c,N,Y,quadratic,injective but should not be,NA
+PI,155,d,N,Y,piecewise linear,surjective but should not be,NA
+PI,156,a,Y,N,linear,NA,NA
+PI,156,b,Y,N,cubic,NA,NA
+PI,156,c,Y,N,cubic,NA,NA
+PI,156,d,Y,N,piecewise other,NA,NA
+PI,157,a,N,N,linear,"domain is [0,1/2]",NA
+PI,157,b,N,N,quadratic,"domain is [0,1/2]",NA
+PI,157,c,Y,N,quadratic,NA,NA
+PI,157,d,N,N,piecewise other,domain has gaps,NA
+PI,158,a,N,Y,linear,"image is [0,1/2]",NA
+PI,158,b,Y,Y,quadratic,NA,NA
+PI,158,c,Y,Y,quadratic,NA,NA
+PI,158,d,Y,Y,piecewise linear,NA,NA
+PI,159,a,Y,N,linear,NA,NA
+PI,159,b,Y,N,quadratic,NA,NA
+PI,159,c,Y,N,quadratic,NA,NA
+PI,159,d,Y,N,piecewise linear,NA,NA
+PI,160,a,Y,Y,piecewise linear,NA,mod
+PI,160,b,Y,Y,piecewise linear,NA,y=2x mod 1 !!
+PI,160,c,N,NA,NA,NA,i think there is a marking mistake - cannot find n4 and I htink n3 is wrong
+PI,160,d,N,N,piecewise linear,does not pass through the required points,NA
+PI,161,a,N,N,piecewise linear,surjective but should not be; not a function,NA
+PI,161,b,N,N,piecewise linear,surjective but should not be; not a function,NA
+PI,161,c,Y,N,piecewise linear,NA,NA
+PI,161,d,Y,N,piecewise linear,NA,NA
+PI,162,a,N,N,linear,surjective but should not be,NA
+PI,162,b,Y,N,quadratic,NA,NA
+PI,162,c,Y,N,piecewise linear,NA,NA
+PI,162,d,N,N,piecewise linear,domain has gaps,NA
+PI,163,a,N,N,NA,NA,missing
+PI,163,b,N,N,NA,NA,NA
+PI,163,c,N,N,quadratic,"image is [0,1/2]",missing
+PI,163,d,Y,N,piecewise linear,NA,NA
+PI,164,a,Y,N,linear,NA,NA
+PI,164,b,N,N,piecewise linear,domain has gaps,NA
+PI,164,c,Y,N,quadratic,NA,NA
+PI,164,d,Y,N,piecewise linear,NA,NA
+PI,165,a,Y,N,linear,NA,NA
+PI,165,b,Y,N,quadratic,NA,NA
+PI,165,c,Y,N,quadratic,NA,NA
+PI,165,d,Y,N,piecewise linear,NA,NA
+PI,166,a,Y,N,linear,NA,NA
+PI,166,b,Y,N,quadratic,NA,NA
+PI,166,c,Y,N,quadratic,NA,NA
+PI,166,d,Y,N,piecewise linear,NA,NA
+PI,167,a,Y,Y,linear,NA,NA
+PI,167,b,Y,Y,quadratic,NA,NA
+PI,167,c,Y,Y,quadratic,NA,NA
+PI,167,d,Y,Y,piecewise linear,NA,NA
+PI,168,a,N,N,linear,"domain is [0,1/2]",random mathematics
+PI,168,b,N,N,other - unclear,not a function,random mathematics
+PI,168,c,N,N,piecewise linear,"image goes beyond [0,1]",random mathematics
+PI,168,d,N,N,piecewise linear,not a function,random mathematics
+PI,169,a,Y,Y,linear,NA,NA
+PI,169,b,Y,Y,quadratic,image too small,NA
+PI,169,c,Y,Y,piecewise linear,NA,NA
+PI,169,d,Y,Y,piecewise linear,NA,NA
+PI,170,a,Y,N,piecewise linear,NA,NA
+PI,170,b,Y,N,piecewise linear,NA,NA
+PI,170,c,Y,N,piecewise linear,NA,NA
+PI,170,d,Y,N,piecewise linear,NA,NA
+PI,171,a,N,N,linear,"image is [0,1/2]",NA
+PI,171,b,N,N,quadratic,image too small,NA
+PI,171,c,Y,N,quadratic,NA,NA
+PI,171,d,N,N,piecewise linear,domain has gaps,NA
+PI,172,a,Y,N,linear,NA,NA
+PI,172,b,Y,N,piecewise linear,NA,NA
+PI,172,c,Y,N,piecewise linear,NA,NA
+PI,172,d,Y,N,piecewise linear,NA,NA
+PI,173,a,Y,N,linear,NA,NA
+PI,173,b,Y,N,quadratic,NA,NA
+PI,173,c,Y,N,quadratic,"image is [0,1/2]",NA
+PI,173,d,Y,N,piecewise linear,NA,NA
+PI,174,a,Y,N,linear,NA,NA
+PI,174,b,Y,N,quadratic,NA,NA
+PI,174,c,Y,N,piecewise linear,NA,NA
+PI,174,d,Y,N,piecewise other,NA,NA
+PI,175,a,Y,Y,linear,NA,NA
+PI,175,b,N,N,other - unclear,image too small,NA
+PI,175,c,Y,N,cubic,NA,NA
+PI,175,d,Y,N,piecewise linear,NA,NA
+PI,176,a,Y,N,linear,NA,NA
+PI,176,b,Y,N,cubic,NA,NA
+PI,176,c,Y,N,cubic,NA,NA
+PI,176,d,Y,N,piecewise other,NA,NA
+PI,177,a,N,N,linear,surjective but should not be,NA
+PI,177,b,Y,N,piecewise linear,NA,NA
+PI,177,c,Y,N,quadratic,NA,NA
+PI,177,d,Y,N,piecewise linear,NA,NA
+PI,178,a,Y,Y,linear,NA,NA
+PI,178,b,Y,Y,quadratic,NA,NA
+PI,178,c,Y,Y,quadratic,NA,NA
+PI,178,d,Y,Y,piecewise linear,NA,NA
+PI,179,a,N,N,linear,surjective but should not be,NA
+PI,179,b,N,N,quadratic,surjective but should not be,NA
+PI,179,c,Y,N,cubic,NA,NA
+PI,179,d,N,N,piecewise linear,domain has gaps,NA
+PI,180,a,Y,Y,linear,NA,NA
+PI,180,b,Y,Y,piecewise linear,NA,mod
+PI,180,c,Y,Y,trig,NA,NA
+PI,180,d,N,Y,piecewise linear,surjective but should not be,NA
+PI,181,a,N,N,linear,surjective but should not be,NA
+PI,181,b,N,N,cubic,surjective but should not be,NA
+PI,181,c,Y,N,cubic,NA,gives the same example as before
+PI,181,d,N,N,piecewise linear,domain has gaps,NA
+PI,182,a,Y,N,quadratic,NA,NA
+PI,182,b,Y,N,other - unclear,NA,NA
+PI,182,c,Y,N,piecewise linear,NA,NA
+PI,182,d,Y,N,piecewise linear,NA,NA
+PI,183,a,Y,N,linear,NA,NA
+PI,183,b,Y,N,cubic,NA,NA
+PI,183,c,N,N,quadratic,"image is [0,1/2]",NA
+PI,183,d,N,N,piecewise linear,domain has gaps,but the points are not labelled so we can't say
+PI,184,a,Y,Y,piecewise linear,NA,NA
+PI,184,b,Y,Y,piecewise linear,NA,NA
+PI,184,c,Y,Y,piecewise linear,NA,NA
+PI,184,d,Y,Y,piecewise linear,NA,NA
+PI,185,a,NA,NA,NA,NA,cant see the first one
+PI,185,b,Y,Y,quadratic,NA,NA
+PI,185,c,Y,Y,quadratic,NA,NA
+PI,185,d,Y,Y BUT NOT CORRECT,piecewise linear,NA,NA
+PI,186,a,Y,N,linear,NA,NA
+PI,186,b,Y,N,piecewise linear,NA,NA
+PI,186,c,Y,N,piecewise linear,NA,NA
+PI,186,d,Y,Y,piecewise linear,NA,NA
+PI,187,a,Y,Y,linear,NA,NA
+PI,187,b,Y,Y,quadratic,NA,NA
+PI,187,c,Y,Y,quadratic,NA,NA
+PI,187,d,Y,Y,piecewise linear,NA,NA
+PI,188,a,Y,N,linear,NA,NA
+PI,188,b,Y,N,quadratic,NA,NA
+PI,188,c,Y,N,quadratic,NA,NA
+PI,188,d,Y,N,piecewise linear,NA,NA
+PI,189,a,Y,Y,linear,NA,NA
+PI,189,b,Y,Y,quadratic,NA,NA
+PI,189,c,Y,Y,quadratic,NA,NA
+PI,189,d,N,Y,piecewise linear,domain has gaps,NA
+PI,190,a,Y,N,linear,NA,NA
+PI,190,b,Y,N,quadratic,NA,NA
+PI,190,c,Y,N,quadratic,NA,NA
+PI,190,d,Y,N,piecewise linear,NA,NA
+PI,191,a,Y,Y,linear,NA,NA
+PI,191,b,Y,Y,trig,NA,NA
+PI,191,c,Y,Y,trig,NA,NA
+PI,191,d,N,Y,other - unclear,surjective but should not be,NA
+PI,192,a,Y,N,linear,NA,NA
+PI,192,b,Y,N,quadratic,NA,NA
+PI,192,c,Y,N,quadratic,NA,NA
+PI,192,d,N,N,linear,NA,the graph is drawn so poorly that looks liek a starigth line - whcoh would be wrong for this question
+PI,193,a,Y,Y,linear,NA,NA
+PI,193,b,Y,N,cubic,NA,NA
+PI,193,c,N,N,other - unclear,domain has gaps,NA
+PI,193,d,Y,N,piecewise linear,NA,NA
+PI,194,a,Y,N,linear,NA,NA
+PI,194,b,Y,N,cubic,NA,NA
+PI,194,c,Y,N,cubic,NA,NA
+PI,194,d,Y,N,piecewise linear,NA,NA
+PI,195,a,Y,Y,linear,NA,NA
+PI,195,b,Y,Y,quadratic,NA,NA
+PI,195,c,Y,Y,quadratic,NA,NA
+PI,195,d,Y,Y,quadratic,NA,NA
+PI,196,a,Y,Y,linear,NA,NA
+PI,196,b,N,Y,quadratic,image too small,NA
+PI,196,c,Y,Y,quadratic,NA,NA
+PI,196,d,Y,N,piecewise linear,NA,NA
+PI,197,a,Y,N,linear,NA,NA
+PI,197,b,Y,N,cubic,NA,NA
+PI,197,c,Y,N,cubic,NA,NA
+PI,197,d,Y,N,piecewise linear,NA,NA
+PI,198,a,Y,N,linear,NA,NA
+PI,198,b,Y,N,quadratic,NA,NA
+PI,198,c,Y,N,linear,NA,NA
+PI,198,d,Y,N,piecewise linear,NA,NA
+PI,199,a,Y,Y,linear,NA,NA
+PI,199,b,Y,Y,linear,NA,mod
+PI,199,c,Y,Y,linear,NA,mod
+PI,199,d,Y,Y,piecewise linear,NA,NA
+PI,200,a,N,Y,linear,"domain exceeds [0,1]",NA
+PI,200,b,N,N,linear,"image is [1/2,1]",NA
+PI,200,c,N,N,linear,domain has gaps,NA
+PI,200,d,N,N,linear,domain has gaps,NA
+PI,201,a,Y,N,quadratic,NA,NA
+PI,201,b,Y,N,quadratic,NA,NA
+PI,201,c,N,N,quadratic,image too small,NA
+PI,201,d,N,N,linear,does not pass through the required points,NA
+PI,202,a,Y,N,linear,NA,NA
+PI,202,b,Y,N,cubic,NA,NA
+PI,202,c,Y,N,cubic,NA,NA
+PI,202,d,N,N,piecewise linear,domain has gaps,NA
+PI,203,a,Y,N,linear,NA,NA
+PI,203,b,Y,N,quadratic,NA,NA
+PI,203,c,Y,N,quadratic,NA,NA
+PI,203,d,Y,N,piecewise linear,NA,NA
+PI,204,a,Y,Y,linear,NA,NA
+PI,204,b,Y,Y,quadratic,NA,NA
+PI,204,c,Y,Y,quadratic,NA,NA
+PI,204,d,Y,Y,piecewise linear,NA,NA
+PI,205,a,Y,N,linear,NA,NA
+PI,205,b,Y,N,other - unclear,NA,NA
+PI,205,c,Y,N,cubic,NA,NA
+PI,205,d,N,N,piecewise linear,domain has gaps,a lot of those fail in that they do not include all the domain in the defintion
+PI,206,a,Y,N,linear,NA,NA
+PI,206,b,Y,N,cubic,NA,NA
+PI,206,c,Y,N,quadratic,NA,NA
+PI,206,d,Y,N,piecewise linear,NA,NA
+PI,207,a,-,-,no answer visible,no answer visible,theer are no graphs of functions to this script
+PI,207,b,NA,NA,no answer visible,no answer visible,NA
+PI,207,c,NA,NA,no answer visible,no answer visible,NA
+PI,207,d,NA,NA,no answer visible,no answer visible,NA
+PI,208,a,N,N,linear,"image is [1/2,1]",NA
+PI,208,b,N,N,piecewise linear,"image is [1/2,1]",NA
+PI,208,c,Y,N,piecewise linear,NA,NA
+PI,208,d,Y,Y,piecewise linear,NA,NA
+BD,209,a,Y,N,linear,NA,NA
+BD,209,b,Y,N,quadratic,NA,NA
+BD,209,c,Y,N,quadratic,NA,NA
+BD,209,d,Y,N,piecewise linear,NA,NA
+BD,210,a,Y,N,linear,NA,NA
+BD,210,b,Y,N,quadratic,NA,NA
+BD,210,c,Y,N,quadratic,NA,NA
+BD,210,d,N,N,piecewise linear,domain has gaps,NA
+BD,211,a,Y,N,linear,NA,NA
+BD,211,b,Y,N,piecewise linear,NA,NA
+BD,211,c,Y,N,piecewise linear,NA,NA
+BD,211,d,Y,N,piecewise linear,NA,NA
+BD,212,a,N,N,linear,surjective but should not be,NA
+BD,212,b,N,N,quadratic,"image too large but still a subset of [0,1]",NA
+BD,212,c,Y,N,quadratic,NA,NA
+BD,212,d,N,N,linear,surjective but should not be,NA
+BD,213,a,Y,Y,linear,NA,NA
+BD,213,b,Y,Y,trig,NA,NA
+BD,213,c,Y,Y,trig,NA,NA
+BD,213,d,Y,Y,piecewise linear,NA,NA
+BD,214,a,Y,N,linear,NA,NA
+BD,214,b,N,N,other - unclear,domain has gaps,NA
+BD,214,c,Y,N,quadratic,NA,NA
+BD,214,d,N,N,other - unclear,surjective but should not be,NA
+BD,215,a,Y,Y,linear,NA,NA
+BD,215,b,Y,N,quadratic,NA,NA
+BD,215,c,Y,N,quadratic,NA,NA
+BD,215,d,Y,N,piecewise linear,NA,NA
+BD,216,a,Y,N,linear,NA,NA
+BD,216,b,Y,N,quadratic,NA,NA
+BD,216,c,Y,N,quadratic,NA,NA
+BD,216,d,Y,N,other - unclear,NA,NA
+BD,217,a,Y,N,linear,NA,NA
+BD,217,b,Y,N,quadratic,NA,NA
+BD,217,c,Y,N,quadratic,NA,NA
+BD,217,d,N,N,piecewise linear,domain has gaps,NA
+BD,218,a,N,N,no answer visible,no answer visible,NA
+BD,218,b,N,N,trig,"image goes beyond [0,1]",NA
+BD,218,c,N,N,trig,"image goes beyond [0,1]",NA
+BD,218,d,N,N,piecewise linear,domain has gaps,NA
+BD,219,a,Y,N,linear,"domain is [0,1/2]",NA
+BD,219,b,N,N,piecewise linear,domain has gaps,NA
+BD,219,c,Y,Y,quadratic,NA,NA
+BD,219,d,Y,Y,piecewise linear,NA,NA
+BD,220,a,Y,N,linear,NA,NA
+BD,220,b,Y,N,quadratic,NA,NA
+BD,220,c,Y,N,quadratic,NA,NA
+BD,220,d,Y,N,other - unclear,NA,NA
+BD,221,a,Y,N,linear,NA,NA
+BD,221,b,Y,N,piecewise linear,NA,NA
+BD,221,c,Y,N,piecewise linear,NA,NA
+BD,221,d,Y,N,piecewise linear,NA,NA
+BD,222,a,Y,Y,linear,NA,NA
+BD,222,b,Y,Y,trig,NA,NA
+BD,222,c,Y,Y,trig,NA,NA
+BD,222,d,Y,N,other - unclear,NA,NA
+BD,223,a,Y,Y,linear,NA,NA
+BD,223,b,Y,Y,quadratic,NA,NA
+BD,223,c,Y,Y,quadratic,NA,NA
+BD,223,d,Y,Y,piecewise linear,NA,NA
+BD,224,a,N,N,linear,"domain is [0,1/2]",NA
+BD,224,b,N,N,cubic,"domain is [0,1/2]",NA
+BD,224,c,Y,N,quadratic,NA,NA
+BD,224,d,Y,N,other - unclear,NA,NA
+BD,225,a,Y,Y,linear,NA,NA
+BD,225,b,Y,Y,quadratic,NA,NA
+BD,225,c,Y,Y,quadratic,NA,NA
+BD,225,d,Y,N,piecewise linear,NA,NA
+BD,226,a,Y,Y,linear,NA,NA
+BD,226,b,Y,N,quadratic,NA,NA
+BD,226,c,Y,N,quadratic,NA,NA
+BD,226,d,Y,N,other - unclear,NA,NA
+BD,227,a,Y,N,linear,NA,NA
+BD,227,b,Y,N,cubic,NA,NA
+BD,227,c,Y,N,cubic,NA,NA
+BD,227,d,Y,Y,piecewise linear,NA,NA
+BD,228,a,Y,Y,linear,NA,NA
+BD,228,b,Y,Y,quadratic,NA,NA
+BD,228,c,Y,Y,quadratic,NA,NA
+BD,228,d,N,Y,linear,surjective but should not be,NA
+BD,229,a,Y,Y,linear,NA,NA
+BD,229,b,Y,N,piecewise linear,NA,NA
+BD,229,c,Y,N,piecewise linear,NA,NA
+BD,229,d,Y,Y,piecewise linear,NA,NA
+BD,230,a,N,Y,linear,domain has gaps,NA
+BD,230,b,N,Y,trig,domain has gaps,NA
+BD,230,c,N,Y,piecewise linear,domain has gaps,NA
+BD,230,d,Y,Y,piecewise linear,NA,NA
+BD,231,a,Y,N,linear,NA,NA
+BD,231,b,Y,N,cubic,NA,NA
+BD,231,c,Y,N,cubic,NA,NA
+BD,231,d,N,N,other - unclear,domain has gaps,NA
+BD,232,a,Y,Y,linear,NA,NA
+BD,232,b,Y,N,quadratic,NA,NA
+BD,232,c,Y,N,cubic,NA,NA
+BD,232,d,N,Y,piecewise linear,domain has gaps,NA
+BD,233,a,Y,Y,linear,NA,NA
+BD,233,b,Y,Y,other - quartic,NA,NA
+BD,233,c,Y,Y,other - quartic,NA,NA
+BD,233,d,Y,Y,piecewise linear,NA,NA
+BD,234,a,Y,Y,linear,NA,NA
+BD,234,b,N,Y,quadratic,"image goes beyond [0,1]",NA
+BD,234,c,N,Y,quadratic,"image is [0,1/2]",NA
+BD,234,d,Y,Y,piecewise linear,NA,NA
+BD,235,a,Y,N,linear,NA,NA
+BD,235,b,Y,N,piecewise linear,NA,NA
+BD,235,c,Y,N,piecewise linear,NA,NA
+BD,235,d,Y,N,piecewise linear,NA,NA
+BD,236,a,Y,Y,linear,NA,NA
+BD,236,b,N,Y,piecewise linear,"domain is [0,1/2]",NA
+BD,236,c,N,Y,piecewise linear,"domain exceeds [0,1]",NA
+BD,236,d,N,Y,linear,"domain exceeds [0,1]",NA
+BD,237,a,Y,N,linear,NA,NA
+BD,237,b,N,N,quadratic,image too small,NA
+BD,237,c,Y,N,cubic,NA,NA
+BD,237,d,Y,N,other - unclear,NA,NA
+BD,238,a,Y,N,other - unclear,NA,NA
+BD,238,b,Y,N,quadratic,NA,NA
+BD,238,c,Y,N,quadratic,NA,NA
+BD,238,d,N,N,other - unclear,surjective but should not be,NA
+BD,239,a,Y,Y,linear,NA,NA
+BD,239,b,Y,Y,quadratic,NA,NA
+BD,239,c,N,N,quadratic,"image goes beyond [0,1]",NA
+BD,239,d,Y,N,piecewise other,NA,NA
+BD,240,a,Y,N,linear,NA,NA
+BD,240,b,Y,N,quadratic,NA,NA
+BD,240,c,Y,N,piecewise linear,NA,NA
+BD,240,d,Y,N,piecewise other,NA,NA
+BD,241,a,Y,Y,linear,NA,NA
+BD,241,b,Y,N,cubic,NA,NA
+BD,241,c,Y,N,quadratic,NA,NA
+BD,241,d,Y,N,other - unclear,NA,NA
+BD,242,a,Y,Y,piecewise linear,NA,NA
+BD,242,b,Y,Y,piecewise linear,NA,NA
+BD,242,c,Y,Y,piecewise linear,NA,NA
+BD,242,d,N,N,linear,surjective but should not be,NA
+BD,243,a,N,N,no answer visible,no answer visible,NA
+BD,243,b,N,N,trig,"image goes beyond [0,1]",NA
+BD,243,c,N,N,trig,"image goes beyond [0,1]",NA
+BD,243,d,N,N,piecewise linear,domain has gaps,NA
+BD,244,a,Y,Y,linear,NA,NA
+BD,244,b,N,Y,trig,"image too large but still a subset of [0,1]",NA
+BD,244,c,N,N,quadratic,"domain exceeds [0,1]; image goes beyond [0,1]",NA
+BD,244,d,N,N,other - unclear,"domain exceeds [0,1]; image goes beyond [0,1]",NA
+BD,245,a,Y,Y,linear,NA,NA
+BD,245,b,Y,Y,quadratic,NA,NA
+BD,245,c,Y,Y,quadratic,NA,NA
+BD,245,d,Y,N,other - unclear,NA,NA
+BD,246,a,Y,N,linear,NA,NA
+BD,246,b,Y,N,quadratic,NA,NA
+BD,246,c,N,N,trig,image too small,NA
+BD,246,d,N,N,piecewise linear,surjective but should not be,NA
+BD,247,a,Y,Y,linear,NA,NA
+BD,247,b,N,Y,piecewise linear,"image too large but still a subset of [0,1]",NA
+BD,247,c,Y,Y,quadratic,NA,NA
+BD,247,d,Y,Y,piecewise linear,NA,NA
+BD,248,a,Y,N,linear,NA,NA
+BD,248,b,Y,N,quadratic,NA,NA
+BD,248,c,Y,N,piecewise linear,NA,NA
+BD,248,d,N,N,piecewise linear,domain has gaps,NA
+BD,249,a,Y,N,linear,NA,NA
+BD,249,b,N,N,no answer visible,no answer visible,NA
+BD,249,c,N,N,no answer visible,no answer visible,NA
+BD,249,d,Y,Y,piecewise linear,NA,NA
+BD,250,a,Y,N,linear,NA,NA
+BD,250,b,Y,N,quadratic,NA,NA
+BD,250,c,Y,N,quadratic,NA,NA
+BD,250,d,Y,N,piecewise linear,NA,NA
+BD,251,a,N,Y,other - ln(x),"image too large but still a subset of [0,1]",NA
+BD,251,b,N,Y,quadratic,image too small,NA
+BD,251,c,Y,Y,quadratic,NA,NA
+BD,251,d,Y,Y,piecewise linear,NA,NA
+BD,252,a,Y,Y,linear,NA,NA
+BD,252,b,Y,Y,piecewise linear,NA,NA
+BD,252,c,Y,Y,piecewise linear,NA,NA
+BD,252,d,Y,Y,piecewise linear,NA,NA
+BD,253,a,N,Y,linear,surjective but should not be,NA
+BD,253,b,N,Y,quadratic,image too small,NA
+BD,253,c,Y,Y,quadratic,NA,NA
+BD,253,d,Y,Y,piecewise linear,NA,NA
+BD,254,a,Y,N,linear,NA,NA
+BD,254,b,Y,N,quadratic,NA,NA
+BD,254,c,Y,N,quadratic,NA,NA
+BD,254,d,Y,N,other - unclear,NA,NA
+BD,255,a,N,Y,linear,not a function,NA
+BD,255,b,N,Y,other - abs(x),not a function,NA
+BD,255,c,N,Y,other - abs(x),not a function,NA
+BD,255,d,N,Y,piecewise linear,not a function,NA
+BD,256,a,Y,N,linear,NA,NA
+BD,256,b,Y,N,quadratic,NA,NA
+BD,256,c,Y,N,quadratic,NA,NA
+BD,256,d,Y,N,piecewise linear,NA,NA
+BD,257,a,Y,Y,linear,NA,NA
+BD,257,b,Y,Y,piecewise linear,NA,NA
+BD,257,c,Y,Y,piecewise linear,NA,NA
+BD,257,d,Y,Y,piecewise linear,NA,NA
+BD,258,a,Y,Y,linear,NA,NA
+BD,258,b,Y,Y,other - trig (with abs),NA,NA
+BD,258,c,N,Y,trig,"domain exceeds [0,1]; image goes beyond [0,1]",NA
+BD,258,d,N,N,other - 1/x,"undefined at a point; image goes beyond [0,1]",NA
+BD,259,a,N,N,linear,"surjective but should not be; domain exceeds [0,1]",NA
+BD,259,b,N,N,quadratic,"domain exceeds [0,1]; image goes beyond [0,1]",NA
+BD,259,c,N,N,quadratic,image too small; domain has gaps,NA
+BD,259,d,N,N,other - unclear,not a function,NA
+BD,260,a,Y,N,linear,NA,NA
+BD,260,b,Y,N,trig,NA,NA
+BD,260,c,Y,N,trig,NA,NA
+BD,260,d,N,Y,linear,surjective but should not be,NA
+BD,261,a,Y,Y,linear,NA,NA
+BD,261,b,Y,Y,quadratic,NA,NA
+BD,261,c,Y,Y,piecewise linear,NA,NA
+BD,261,d,Y,Y,other - 1/x,NA,NA
+BD,262,a,Y,N,linear,NA,NA
+BD,262,b,Y,N,cubic,NA,NA
+BD,262,c,Y,N,quadratic,NA,NA
+BD,262,d,Y,N,other - unclear,NA,NA
+BD,263,a,Y,Y,linear,NA,NA
+BD,263,b,Y,Y,piecewise linear,NA,NA
+BD,263,c,Y,Y,cubic,NA,NA
+BD,263,d,Y,Y,piecewise linear,NA,NA
+BD,264,a,Y,Y,other - unclear,NA,NA
+BD,264,b,N,Y,piecewise other,image too small,NA
+BD,264,c,Y,Y,piecewise linear,NA,NA
+BD,264,d,Y,Y,piecewise linear,NA,NA
+BD,265,a,Y,N,linear,NA,NA
+BD,265,b,Y,N,piecewise linear,NA,NA
+BD,265,c,Y,N,cubic,NA,NA
+BD,265,d,Y,N,piecewise linear,NA,NA
+BD,266,a,Y,Y,linear,NA,NA
+BD,266,b,Y,Y,piecewise linear,NA,NA
+BD,266,c,Y,Y,piecewise linear,NA,NA
+BD,266,d,Y,Y,piecewise linear,NA,NA
+BD,267,a,Y,Y,linear,NA,NA
+BD,267,b,Y,Y,quadratic,NA,NA
+BD,267,c,Y,Y,quadratic,NA,NA
+BD,267,d,Y,Y,piecewise linear,NA,NA
+BD,268,a,Y,Y,linear,NA,NA
+BD,268,b,Y,Y,quadratic,NA,NA
+BD,268,c,Y,Y,quadratic,NA,NA
+BD,268,d,Y,Y,piecewise linear,NA,NA
+BD,269,a,N,N,linear,"image is [1/2,1]",NA
+BD,269,b,N,N,linear,"image too large but still a subset of [0,1]",NA
+BD,269,c,Y,N,quadratic,NA,NA
+BD,269,d,N,N,piecewise linear,domain has gaps,NA
+BD,270,a,Y,Y,linear,NA,NA
+BD,270,b,N,Y,trig,"domain exceeds [0,1];",NA
+BD,270,c,N,N,quadratic,"domain exceeds [0,1]; image goes beyond [0,1]",NA
+BD,270,d,N,N,piecewise other,not injective,NA
+BD,271,a,Y,Y,linear,NA,NA
+BD,271,b,Y,Y,quadratic,NA,NA
+BD,271,c,Y,Y,quadratic,NA,NA
+BD,271,d,Y,Y,piecewise linear,NA,NA
+BD,272,a,Y,Y,linear,NA,NA
+BD,272,b,Y,Y,other - abs(x),NA,NA
+BD,272,c,Y,Y,piecewise linear,NA,NA
+BD,272,d,N,N,no answer visible,no answer visible,NA
+BD,273,a,Y,N,linear,NA,NA
+BD,273,b,N,N,linear,"image too large but still a subset of [0,1]",NA
+BD,273,c,Y,N,quadratic,NA,NA
+BD,273,d,Y,N,other - unclear,NA,NA
+BD,274,a,Y,N,linear,NA,NA
+BD,274,b,Y,N,quadratic,NA,NA
+BD,274,c,Y,N,quadratic,NA,NA
+BD,274,d,N,N,linear,surjective but should not be,NA
+BD,275,a,Y,N,linear,NA,NA
+BD,275,b,Y,N,piecewise linear,NA,NA
+BD,275,c,Y,N,piecewise linear,NA,NA
+BD,275,d,Y,N,piecewise linear,NA,NA
+BD,276,a,Y,Y,linear,NA,NA
+BD,276,b,Y,Y,quadratic,NA,NA
+BD,276,c,Y,Y,quadratic,NA,NA
+BD,276,d,Y,Y,piecewise linear,NA,NA
+BD,277,a,Y,N,linear,NA,NA
+BD,277,b,Y,N,piecewise linear,NA,NA
+BD,277,c,Y,N,piecewise linear,NA,NA
+BD,277,d,Y,N,piecewise linear,NA,NA
+BD,278,a,Y,N,linear,NA,NA
+BD,278,b,Y,N,piecewise linear,NA,NA
+BD,278,c,Y,N,piecewise linear,NA,NA
+BD,278,d,N,N,piecewise other,not injective,NA
+BD,279,a,Y,N,linear,NA,NA
+BD,279,b,N,N,piecewise linear,image too small,NA
+BD,279,c,Y,N,piecewise other,NA,NA
+BD,279,d,Y,N,piecewise linear,NA,NA
+BD,280,a,N,N,linear,surjective but should not be,NA
+BD,280,b,N,Y,piecewise linear,"image too large but still a subset of [0,1]",NA
+BD,280,c,N,N,quadratic,image too small,NA
+BD,280,d,N,Y,piecewise linear,domain has gaps,NA
+BD,281,a,Y,N,linear,NA,NA
+BD,281,b,Y,N,piecewise linear,NA,NA
+BD,281,c,Y,N,piecewise linear,NA,NA
+BD,281,d,N,N,piecewise linear,surjective but should not be,NA
+BD,282,a,Y,N,other - unclear,NA,NA
+BD,282,b,Y,N,quadratic,NA,NA
+BD,282,c,Y,N,cubic,NA,NA
+BD,282,d,Y,N,piecewise other,NA,NA
+BD,283,a,Y,Y,linear,NA,NA
+BD,283,b,Y,Y,quadratic,NA,NA
+BD,283,c,Y,Y,quadratic,NA,NA
+BD,283,d,Y,Y,piecewise linear,NA,NA
+BD,284,a,Y,N,other - unclear,NA,NA
+BD,284,b,Y,N,cubic,NA,NA
+BD,284,c,Y,N,cubic,NA,NA
+BD,284,d,Y,N,piecewise linear,NA,NA
+BD,285,a,Y,N,linear,NA,NA
+BD,285,b,Y,N,quadratic,NA,NA
+BD,285,c,Y,N,cubic,NA,NA
+BD,285,d,Y,N,piecewise linear,NA,NA
+BD,286,a,Y,N,linear,NA,NA
+BD,286,b,Y,N,piecewise linear,NA,NA
+BD,286,c,Y,N,quadratic,NA,NA
+BD,286,d,Y,N,piecewise linear,NA,NA
+BD,287,a,Y,Y,linear,NA,NA
+BD,287,b,Y,Y,quadratic,NA,NA
+BD,287,c,Y,Y,quadratic,NA,NA
+BD,287,d,N,Y,piecewise linear,surjective but should not be,NA
+BD,288,a,N,N,other - unclear,"domain exceeds [0,1]",NA
+BD,288,b,N,N,other - unclear,"domain exceeds [0,1]; image goes beyond [0,1]",NA
+BD,288,c,N,N,other - unclear,not a function,NA
+BD,288,d,Y,N,other - unclear,NA,NA
+BD,289,a,Y,Y,linear,NA,NA
+BD,289,b,Y,Y,quadratic,NA,NA
+BD,289,c,Y,Y,quadratic,NA,NA
+BD,289,d,N,Y,other - surd,domain has gaps,NA
+BD,290,a,Y,Y,linear,NA,NA
+BD,290,b,Y,Y,quadratic,NA,NA
+BD,290,c,N,Y,cubic,"image goes beyond [0,1]",NA
+BD,290,d,N,Y,piecewise linear,surjective but should not be,NA
+BD,291,a,Y,N,linear,NA,NA
+BD,291,b,Y,N,piecewise linear,NA,NA
+BD,291,c,Y,N,cubic,NA,NA
+BD,291,d,Y,N,piecewise linear,NA,NA
+BD,292,a,Y,N,linear,NA,NA
+BD,292,b,Y,N,linear,NA,NA
+BD,292,c,Y,N,quadratic,NA,NA
+BD,292,d,Y,N,other - unclear,NA,NA
+BD,293,a,Y,N,linear,NA,NA
+BD,293,b,Y,N,quadratic,NA,NA
+BD,293,c,Y,N,quadratic,NA,NA
+BD,293,d,N,N,no answer visible,no answer visible,NA
+BD,294,a,Y,N,linear,NA,NA
+BD,294,b,Y,N,piecewise linear,NA,NA
+BD,294,c,Y,N,piecewise linear,NA,NA
+BD,294,d,Y,N,piecewise linear,NA,NA
+BD,295,a,Y,N,linear,NA,NA
+BD,295,b,Y,N,quadratic,NA,NA
+BD,295,c,Y,N,cubic,NA,NA
+BD,295,d,Y,N,piecewise linear,NA,NA
+BD,296,a,N,N,quadratic,surjective but should not be,NA
+BD,296,b,N,N,quadratic,"image too large but still a subset of [0,1]",NA
+BD,296,c,Y,N,quadratic,NA,NA
+BD,296,d,N,N,linear,surjective but should not be,NA
+BD,297,a,Y,Y,linear,NA,NA
+BD,297,b,Y,Y,quadratic,NA,NA
+BD,297,c,Y,Y,quadratic,NA,NA
+BD,297,d,Y,Y,piecewise linear,NA,NA
+BD,298,a,Y,Y,linear,NA,NA
+BD,298,b,N,Y,trig,"domain exceeds [0,1]; image too large but still a subset of [0,1]",NA
+BD,298,c,N,N,quadratic,domain has gaps,NA
+BD,298,d,N,N,piecewise other,not injective,NA
+BD,299,a,Y,Y,linear,NA,NA
+BD,299,b,Y,Y,piecewise linear,NA,NA
+BD,299,c,Y,Y,piecewise linear,NA,NA
+BD,299,d,Y,Y,piecewise linear,NA,NA
+BD,300,a,Y,N,linear,NA,NA
+BD,300,b,Y,N,quadratic,NA,NA
+BD,300,c,Y,N,quadratic,NA,NA
+BD,300,d,N,N,other - unclear,not injective,NA
+BD,301,a,Y,Y,linear,NA,NA
+BD,301,b,Y,Y,quadratic,NA,NA
+BD,301,c,Y,Y,quadratic,NA,NA
+BD,301,d,Y,Y,piecewise linear,NA,NA
+BD,302,a,Y,Y,linear,NA,NA
+BD,302,b,Y,Y,piecewise linear,NA,NA
+BD,302,c,Y,Y,quadratic,NA,NA
+BD,302,d,Y,Y,piecewise linear,NA,NA
+BD,303,a,Y,Y,linear,NA,NA
+BD,303,b,Y,Y,piecewise linear,NA,NA
+BD,303,c,Y,Y,piecewise linear,NA,NA
+BD,303,d,Y,Y,piecewise linear,NA,NA
+BD,304,a,Y,N,linear,NA,NA
+BD,304,b,Y,N,quadratic,NA,NA
+BD,304,c,Y,N,quadratic,NA,NA
+BD,304,d,Y,N,piecewise linear,NA,NA
+BD,305,a,Y,Y,linear,NA,NA
+BD,305,b,Y,Y,quadratic,NA,NA
+BD,305,c,Y,Y,quadratic,NA,NA
+BD,305,d,Y,N,other - e^x,NA,NA
+BD,306,a,Y,Y,linear,NA,NA
+BD,306,b,N,Y,piecewise linear,NA,NA
+BD,306,c,Y,Y,quadratic,NA,NA
+BD,306,d,Y,Y,piecewise linear,NA,NA
+BD,307,a,Y,Y,linear,NA,NA
+BD,307,b,Y,Y,piecewise linear,NA,NA
+BD,307,c,Y,Y,piecewise linear,NA,NA
+BD,307,d,Y,Y,piecewise other,NA,NA
+BD,308,a,Y,Y,linear,NA,NA
+BD,308,b,Y,Y,quadratic,NA,NA
+BD,308,c,Y,Y,quadratic,NA,NA
+BD,308,d,Y,Y,piecewise linear,NA,NA
+BD,309,a,Y,Y,linear,NA,NA
+BD,309,b,Y,Y,quadratic,NA,NA
+BD,309,c,Y,Y,quadratic,NA,NA
+BD,309,d,Y,N,other - unclear,NA,NA
+BD,310,a,Y,N,linear,NA,NA
+BD,310,b,N,N,quadratic,"image too large but still a subset of [0,1]",NA
+BD,310,c,Y,N,quadratic,NA,NA
+BD,310,d,Y,N,piecewise linear,NA,NA
+BD,311,a,Y,Y,linear,NA,NA
+BD,311,b,Y,Y,quadratic,NA,NA
+BD,311,c,Y,Y,quadratic,NA,NA
+BD,311,d,Y,Y,piecewise linear,NA,NA
+BD,312,a,Y,N,linear,NA,NA
+BD,312,b,Y,N,quadratic,NA,NA
+BD,312,c,Y,N,quadratic,NA,NA
+BD,312,d,Y,N,piecewise linear,NA,NA
+BD,313,a,N,N,no answer visible,no answer visible,"This was possibly intended as a graph of just the point (0,1/2) but I'm not sure"
+BD,313,b,N,N,linear,image too small,NA
+BD,313,c,N,N,linear,image too small,NA
+BD,313,d,N,N,linear,domain has gaps,NA
+BD,314,a,Y,Y,piecewise linear,NA,NA
+BD,314,b,Y,Y,piecewise linear,NA,NA
+BD,314,c,Y,Y,piecewise linear,NA,NA
+BD,314,d,N,N,no answer visible,no answer visible,NA
+BD,315,a,N,Y,linear,"image is [1/2,1]",NA
+BD,315,b,N,Y,piecewise linear,"image is [1/2,1]",NA
+BD,315,c,Y,Y,piecewise linear,NA,NA
+BD,315,d,Y,Y,piecewise linear,NA,NA
+BD,316,a,Y,N,linear,NA,NA
+BD,316,b,Y,N,quadratic,NA,NA
+BD,316,c,Y,N,quadratic,NA,NA
+BD,316,d,N,N,linear,surjective but should not be,NA
+BD,317,a,Y,N,linear,NA,NA
+BD,317,b,Y,N,cubic,NA,NA
+BD,317,c,Y,N,quadratic,NA,NA
+BD,317,d,N,N,piecewise linear,domain has gaps,NA
+BD,318,a,Y,Y,piecewise linear,NA,NA
+BD,318,b,Y,Y,piecewise linear,NA,NA
+BD,318,c,Y,Y,piecewise linear,NA,NA
+BD,318,d,Y,Y,piecewise linear,NA,NA
+BD,319,a,Y,N,linear,NA,NA
+BD,319,b,N,N,other - unclear,not a function,NA
+BD,319,c,N,N,other - unclear,not a function,NA
+BD,319,d,N,N,piecewise linear,not injective,NA
+BD,320,a,Y,N,linear,NA,NA
+BD,320,b,Y,N,cubic,NA,NA
+BD,320,c,Y,N,quadratic,NA,NA
+BD,320,d,N,N,linear,surjective but should not be,NA
+BD,321,a,Y,N,linear,NA,NA
+BD,321,b,Y,N,cubic,NA,NA
+BD,321,c,Y,N,quadratic,NA,NA
+BD,321,d,Y,N,other - unclear,NA,NA
+BD,322,a,Y,Y,linear,NA,NA
+BD,322,b,Y,Y,quadratic,NA,NA
+BD,322,c,Y,Y,quadratic,NA,NA
+BD,322,d,Y,Y,piecewise linear,NA,NA
+BD,323,a,N,N,quadratic,image too small,NA
+BD,323,b,N,N,other - hyperbola,not a function,NA
+BD,323,c,N,N,cubic,not a function,NA
+BD,323,d,N,N,linear,domain has gaps,NA
+BD,324,a,Y,N,linear,NA,NA
+BD,324,b,Y,N,quadratic,NA,NA
+BD,324,c,Y,N,quadratic,NA,NA
+BD,324,d,Y,N,piecewise linear,NA,NA
+BD,325,a,Y,N,linear,NA,NA
+BD,325,b,Y,N,quadratic,NA,NA
+BD,325,c,Y,N,quadratic,NA,NA
+BD,325,d,Y,N,quadratic,NA,NA
+BD,326,a,Y,N,linear,NA,NA
+BD,326,b,Y,N,cubic,NA,NA
+BD,326,c,Y,N,other - unclear,NA,NA
+BD,326,d,Y,N,piecewise linear,NA,NA
+BD,327,a,N,N,cubic,surjective but should not be,NA
+BD,327,b,N,N,piecewise linear,"image too large but still a subset of [0,1]",NA
+BD,327,c,N,N,quadratic,image too small,NA
+BD,327,d,N,N,piecewise linear,domain has gaps,NA
+BD,328,a,Y,N,piecewise linear,NA,NA
+BD,328,b,Y,N,piecewise linear,NA,NA
+BD,328,c,Y,N,piecewise linear,NA,NA
+BD,328,d,N,N,piecewise linear,not injective,NA
+BD,329,a,N,N,other - ln(x),"image too large but still a subset of [0,1]",NA
+BD,329,b,N,N,quadratic,image too small,NA
+BD,329,c,N,N,quadratic,image too small,NA
+BD,329,d,N,N,no answer visible,no answer visible,NA
+BD,330,a,Y,N,linear,NA,NA
+BD,330,b,Y,N,piecewise linear,NA,NA
+BD,330,c,Y,N,piecewise linear,NA,NA
+BD,330,d,Y,N,piecewise linear,axis not labelled,NA
+BD,331,a,N,N,no answer visible,no answer visible,NA
+BD,331,b,N,N,no answer visible,no answer visible,NA
+BD,331,c,N,N,no answer visible,no answer visible,NA
+BD,331,d,Y,N,piecewise linear,NA,NA
+BD,332,a,Y,Y,linear,NA,NA
+BD,332,b,N,Y,quadratic,"image too large but still a subset of [0,1]",NA
+BD,332,c,N,N,trig,image too small,NA
+BD,332,d,N,Y,other - 1/x,"undefined at a point; image goes beyond [0,1]",NA
+BD,333,a,Y,Y,linear,NA,NA
+BD,333,b,Y,Y,trig,NA,NA
+BD,333,c,Y,Y,trig,NA,NA
+BD,333,d,N,N,linear,surjective but should not be,NA

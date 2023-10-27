@@ -1,0 +1,504 @@
+---
+title: "Written responses - analysis of coding"
+author: "George Kinnear"
+date: "08/10/2021"
+always_allow_html: true
+output:
+  html_document:
+    df_print: paged
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+# Tables
+library(knitr)
+library(kableExtra)
+basic_kable = function(df) {
+  df %>% 
+    kable() %>%
+    kable_styling(bootstrap_options = "striped", full_width = F)
+}
+rmarkdown::html_document(df_print = knitr::kable)
+options(knitr.kable.NA = '')
+
+# Set preferred styling
+theme_set(theme_minimal())
+
+# Compute IRR using Gwet's CRAN package:
+library(irrCAC)
+```
+
+## Coding
+
+```{r}
+coders <- c("GK", "PI", "BD")
+
+# read in all the data, from separate Excel workbooks
+coding_raw <- tibble(coder = coders) %>% 
+  mutate(data = map(coder, ~ readxl::read_excel(here::here("2021-written-responses", paste0("coding-", .x ,".xlsx"))))) %>% 
+  unnest(cols = data)
+
+coding_clean <- coding_raw %>% 
+  # tidy up the contents
+  mutate(across(c(correct, gives_equation), str_to_upper)) %>%
+  mutate(across(c(example_type, nature_of_mistake), str_to_lower)) %>% 
+  mutate(across(c(correct, gives_equation, example_type, nature_of_mistake), str_trim)) %>% 
+  mutate(example_type = str_replace_all(example_type, 'quadratic \\(parabola\\)', "quadratic")) %>% 
+  mutate(example_type = str_replace_all(example_type, 'picewise', "piecewise")) %>% 
+  mutate(example_type = str_replace_all(example_type, 'other unclear', "other - unclear")) %>% 
+  mutate(example_type = str_replace_all(example_type, 'other - no answer visible', "no answer visible")) %>% 
+  mutate(example_type = str_replace_all(example_type, '^o$', "other")) %>% 
+  mutate(example_type = str_replace_all(example_type, '–', "-")) %>% 
+  mutate(nature_of_mistake = str_replace_all(nature_of_mistake, 'domain goes beyond', "domain exceeds")) %>% 
+  mutate(nature_of_mistake = str_replace_all(nature_of_mistake, "domain too small|domain is too small", "domain has gaps")) %>% 
+  mutate(nature_of_mistake = str_replace_all(nature_of_mistake, 'surjective and', "surjective but")) %>% 
+  mutate(nature_of_mistake = str_replace_all(nature_of_mistake, '0, 1', "0,1")) %>% 
+  mutate(nature_of_mistake = str_replace_all(nature_of_mistake, 'n/a', "")) %>% 
+  mutate(nature_of_mistake = na_if(nature_of_mistake, "")) %>% 
+  mutate(nature_of_mistake = case_when(
+    part == "d" & nature_of_mistake == "surjective" ~ "surjective but should not be",
+    TRUE ~ nature_of_mistake
+  ))
+
+
+# coding_gk <- readxl::read_excel(here::here("2021-written-responses", "coding-GK.xlsx"))
+```
+
+
+These entries do not use one of the agreed codes for `nature_of_mistake`:
+
+```{r}
+coding_clean %>% 
+  mutate(
+    nature_of_mistake = str_remove_all(nature_of_mistake, "undefined at a point|domain is \\[0,1/2\\]|domain has gaps|domain exceeds \\[0,1\\]"),
+    nature_of_mistake = str_remove_all(nature_of_mistake, "image is \\[1/2,1\\]|surjective but should not be|image goes beyond \\[0,1\\]"),
+    nature_of_mistake = str_remove_all(nature_of_mistake, "image too small|image too large but still a subset of \\[0,1\\]"),
+    nature_of_mistake = str_remove_all(nature_of_mistake, "image is \\[0,1/2\\]"),
+    nature_of_mistake = str_remove_all(nature_of_mistake, "does not pass through the required points|not injective|not a function|axis not labelled|injective but should not be|no answer visible"),
+    nature_of_mistake = str_remove_all(nature_of_mistake, ";|n/a") %>% str_trim()
+  ) %>% 
+  filter(str_length(nature_of_mistake) > 0) %>% 
+  select(coder, script, part, nature_of_mistake) %>% 
+  basic_kable()
+```
+
+These entries do not use one of the agreed codes for `example_type`:
+
+```{r}
+coding_clean %>% 
+  filter(!example_type %in% c("linear", "piecewise linear", "piecewise other", "quadratic", "cubic", "trig", "not a function", "no answer visible")) %>% 
+  filter(!str_detect(example_type, "other - ")) %>% 
+  select(coder, script, part, example_type) %>% 
+  basic_kable()
+```
+
+
+We coded `r coding_clean %>% select(script) %>% n_distinct()` scripts. These were divided between coders, with some overlap.
+
+```{r}
+coding_clean %>% 
+  select(coder, script) %>% 
+  distinct() %>% 
+  group_by(coder) %>% 
+  tally() %>% 
+  basic_kable()
+```
+
+### Reliability
+
+```{r}
+# pick out the scripts that were double-coded
+double_coding <- coding_clean %>% 
+  semi_join(
+    coding_clean %>% 
+      group_by(script, part) %>% 
+      tally() %>% 
+      filter(n > 1) %>% 
+      select(script),
+    by = "script"
+  )
+
+# put each coder's work in separate columns
+double_coded_vars <- c("correct", "gives_equation", "example_type", "nature_of_mistake", "notes")
+double_coding_wide <- double_coding %>% 
+  pivot_longer(
+    cols = all_of(double_coded_vars),
+    names_to = "var",
+    values_to = "value"
+  ) %>% 
+  pivot_wider(
+    names_from = c(coder, var),
+    values_from = "value",
+    names_sep = "__"
+  )
+```
+
+A total of `r double_coding_wide %>% select(script) %>% n_distinct()` scripts were coded by more than one coder.
+
+For each of the variables of interest, we construct a table which has a column for each coder's input for that variable. We then use the `irrCAC` package to compute various reliability measures:
+
+```{r}
+# helper function to compute multiple IRR stats at once
+IRR_coeffs <- function(cal) {
+  # remove any columns with all NA
+  cal = cal %>% select_if(function(x) !(all(is.na(x)) | all(x=="")))
+  # use irrCAC to find the values
+  gwet = irrCAC::gwet.ac1.raw(cal)
+  krip = irrCAC::krippen.alpha.raw(cal)
+  pa = list("coeff.name" = "Percent agreement", "coeff.val" = gwet$est[["pa"]], "conf.int" = "")
+  return(bind_rows(as_tibble(gwet$est),as_tibble(krip$est),as_tibble(pa)) %>% select(names(pa)))
+}
+
+# compute the IRR stats for each of the variables of interest
+tibble(variable = double_coded_vars) %>%
+  filter(variable != "notes") %>% 
+  mutate(
+    irr_stats = map(
+      variable,
+      ~ double_coding_wide %>%
+        select(contains(.x)) %>%
+        janitor::remove_empty("rows") %>%
+        IRR_coeffs()
+    )
+  ) %>% 
+  unnest(cols = irr_stats) %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = 1, valign = "top")
+
+
+```
+
+#### Disagreements
+
+```{r}
+agreement <- function(cols) {
+  return(tibble(cols) %>% drop_na() %>% n_distinct() <= 1)
+}
+
+double_coding_wide %>% 
+  rowwise() %>% 
+  mutate(agreement_flag = agreement(c_across(contains("correct")))) %>% 
+  filter(agreement_flag == FALSE) %>% 
+  select(script, part, contains("correct")) %>% 
+  basic_kable()
+
+double_coding_wide %>% 
+  rowwise() %>% 
+  mutate(agreement_flag = agreement(c_across(contains("gives_equation")))) %>% 
+  filter(agreement_flag == FALSE) %>% 
+  select(script, part, contains("gives_equation")) %>% 
+  basic_kable()
+
+example_type_disagreements <- double_coding_wide %>% 
+  rowwise() %>% 
+  mutate(agreement_flag = agreement(c_across(contains("example_type")))) %>% 
+  filter(agreement_flag == FALSE) %>% 
+  select(script, part, contains("example_type"))
+
+example_type_disagreements %>% 
+  basic_kable()
+
+
+nature_of_mistake_disagreements <- double_coding_wide %>% 
+  rowwise() %>% 
+  mutate(agreement_flag = agreement(c_across(contains("nature_of_mistake")))) %>% 
+  filter(agreement_flag == FALSE) %>% 
+  select(script, part, contains("nature_of_mistake"))
+
+# nature_of_mistake_disagreements %>% 
+#   basic_kable()
+```
+
+#### Summary of the disagreements
+
+example_type:
+
+```{r}
+example_type_disagreements %>% 
+  group_by(GK__example_type, PI__example_type, BD__example_type) %>% 
+  summarise(
+    n = n(),
+    scripts = paste(paste0(script, part), collapse = ", "),
+    .groups = "drop"
+  ) %>% 
+  arrange(-n) %>% 
+  basic_kable()
+```
+
+
+nature_of_mistake:
+
+```{r}
+nature_of_mistake_disagreements %>% 
+  group_by(GK__nature_of_mistake, PI__nature_of_mistake, BD__nature_of_mistake) %>% 
+  summarise(
+    n = n(),
+    scripts = paste(paste0(script, part), collapse = ", "),
+    .groups = "drop"
+  ) %>% 
+  arrange(-n) %>% 
+  basic_kable()
+
+```
+
+## Resolving disagreements
+
+The final agreed codings are saved in the following:
+
+* scripts 1-125: GK
+* scripts 126-208: PI
+* scripts 209-333: BD
+
+```{r}
+coding_final <- coding_clean %>% 
+  group_by(script, part) %>% 
+  arrange(coder) %>% 
+  sample_n(size = 1)
+
+coding_final <- coding_clean %>% 
+  mutate(
+    final_code = case_when(
+      script <= 125 & coder == "GK" ~ TRUE,
+      script >= 209 & coder == "BD" ~ TRUE,
+      script > 125 & script < 209 & coder == "PI" ~ TRUE,
+      TRUE ~ FALSE
+    )
+  ) %>% 
+  filter(final_code) %>% 
+  select(-final_code)
+
+coding_final %>% 
+  write_csv("coding-final.csv")
+```
+
+
+
+```{r}
+coding_final %>% 
+  group_by(part, correct) %>% 
+  tally() %>% 
+  ggplot(aes(x = part, y = n, group = correct, fill = correct)) +
+  geom_bar(position = "stack", stat = "identity") +
+  scale_fill_viridis_d(option = "plasma", end = 0.8) +
+  labs(title = "Number of correct answers to each part")
+
+coding_final %>%
+  # correct only when the score is 1, incorrect otherwise
+  mutate(correct = if_else(correct == "Y", "Correct", "Incorrect")) %>%
+  # for a couple of students we couldn't decide correctness, so map this to "incorrect"
+  mutate(correct = replace_na(correct, "Incorrect")) %>% 
+  #filter(!is.na(correct)) %>% 
+  janitor::tabyl(part, correct) %>%
+  janitor::adorn_totals("col") %>%
+  janitor::adorn_percentages() %>%
+  janitor::adorn_pct_formatting(digits = 0) %>%
+  janitor::adorn_ns(position = "front") %>% 
+  basic_kable()
+```
+
+```{r}
+coding_final %>% 
+  group_by(part, correct, nature_of_mistake) %>% 
+  tally() %>% 
+  arrange(part, desc(correct), -n) %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = 1:2, valign = "top")
+```
+
+## Types of example
+
+```{r}
+# intended categories, in manually set order
+example_type_list <- c("linear", "cubic", "quadratic", "piecewise linear", "other", "not a function", "no answer visible")
+```
+
+
+```{r}
+# coding_clean %>% 
+#   group_by(coder, example_type) %>% 
+#   tally() %>% 
+#   basic_kable()
+
+coding_clean %>% 
+  janitor::tabyl(example_type, coder) %>% 
+  janitor::adorn_totals(where = "both") %>% 
+  basic_kable()
+```
+
+```{r}
+coding_final_plotdat <- coding_final %>% 
+  mutate(example_type = case_when(
+    str_detect(example_type, "other|1/x|ln\\(x\\)") ~ "other",
+    str_detect(example_type, "curve|exp|hyp|trig|\\?|-") ~ "other",
+    str_detect(example_type, "wise") ~ "piecewise linear",
+    str_detect(example_type, "cubic") ~ "cubic",
+    example_type == "p" ~ "other",
+    TRUE ~ example_type
+  ))
+
+coding_final_plotdat %>% 
+  group_by(part, example_type) %>% 
+  tally() %>% 
+  mutate(example_type = fct_relevel(example_type, example_type_list)) %>% 
+  ggplot(aes(x = part, y = n, group = example_type, fill = example_type)) +
+  geom_bar(position = "stack", stat = "identity") +
+  scale_fill_viridis_d("Example type", option = "plasma", end = 0.8, direction = -1) +
+  labs(title = "Range of examples given for each part")
+
+# coding_clean %>% 
+#   group_by(part, correct, example_type) %>% 
+#   tally() %>% 
+#   ungroup() %>% 
+#   filter(correct %in% c("Y", "N")) %>% 
+#   mutate(correct = ifelse(correct == "Y", "Correct", "Incorrect")) %>% 
+#   mutate(example_type = fct_relevel(example_type, example_type_list)) %>% 
+#   ggplot(aes(x = part, y = n, group = example_type, fill = example_type)) +
+#   geom_bar(position = "stack", stat = "identity") +
+#   scale_fill_viridis_d("Example type", option = "plasma", end = 0.8, direction = -1) +
+#   labs(title = "Range of examples given for each part") +
+#   coord_flip() +
+#   facet_grid(cols = vars(correct))
+
+# https://bookdown.org/lyzhang10/lzhang_r_tips_book/how-to-plot-data.html#creating-back-to-back-bar-charts
+back_to_back_dat <- coding_final_plotdat %>% 
+  group_by(part, correct, example_type) %>% 
+  filter(!is.na(example_type)) %>% 
+  tally() %>% 
+  ungroup() %>% 
+  filter(correct %in% c("Y", "N")) %>% 
+  mutate(correct = ifelse(correct == "Y", "Correct", "Incorrect")) %>% 
+  mutate(correct = fct_relevel(correct, "Incorrect")) %>% 
+  mutate(example_type = fct_relevel(example_type, example_type_list)) %>% 
+  mutate(signed_n = if_else(correct == "Correct", n, -n))
+
+back_to_back_dat %>% 
+  mutate(part = fct_rev(part)) %>% 
+  ggplot(aes(x = part, y = signed_n, group = example_type, fill = example_type)) +
+  geom_bar(position = "stack", stat = "identity") +
+  scale_fill_viridis_d("Example type", option = "plasma", end = 0.8, direction = -1) +
+  scale_y_continuous("Number of students", labels = abs, breaks = seq(-350, 350, 50)) +
+  geom_hline(yintercept = 0) +
+  labs(title = "Range of examples given for each part", x = "") +
+  coord_flip() +
+  annotate("text", x = 4.8, y = 25, label = "Correct", fontface = "bold", hjust = "left", vjust = "top") +
+  annotate("text", x = 4.8, y = -25, label = "Incorrect", fontface = "bold", hjust = "right", vjust = "top")
+
+
+```
+
+
+```{r}
+coding_final_plotdat %>% 
+  filter(!is.na(example_type), !is.na(correct)) %>% 
+  filter(correct == "Y") %>%
+  janitor::tabyl(example_type, part, show_missing_levels = FALSE) %>%
+  janitor::adorn_totals("both") %>%
+  janitor::adorn_percentages(denominator = "col") %>%
+  janitor::adorn_pct_formatting(digits = 0) %>%
+  janitor::adorn_ns(position = "front") %>% 
+  basic_kable()
+```
+
+
+# Analysis of each part
+
+## Part (a)
+
+### Incorrect
+
+
+```{r}
+coding_final %>% 
+  filter(part == "a", correct == "N") %>% 
+  janitor::tabyl(nature_of_mistake) %>% 
+  arrange(-n) %>%
+  janitor::adorn_pct_formatting() %>% 
+  janitor::adorn_totals("row") %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = 1:2, valign = "top")
+```
+```{r}
+coding_final %>% 
+  filter(part == "a", correct == "N", str_detect(nature_of_mistake, "surjective")) %>% 
+  select(coder, script, nature_of_mistake)
+```
+
+```{r}
+coding_final %>% 
+  filter(part == "a", correct == "N", str_detect(nature_of_mistake, "not a function")) %>% 
+  select(coder, script, nature_of_mistake)
+```
+
+## Part (b)
+
+### Incorrect
+
+
+
+```{r}
+coding_final %>% 
+  filter(part == "b", correct == "N") %>% 
+  janitor::tabyl(nature_of_mistake) %>% 
+  arrange(-n) %>%
+  janitor::adorn_pct_formatting() %>% 
+  janitor::adorn_totals("row") %>% 
+  basic_kable() %>% 
+  collapse_rows(columns = 1:2, valign = "top")
+```
+
+```{r}
+coding_final %>% 
+  filter(part == "b", correct == "N", str_detect(nature_of_mistake, "image")) %>% 
+  select(coder, script, nature_of_mistake) %>% 
+  arrange(nature_of_mistake, script)
+```
+
+
+```{r}
+coding_final %>% 
+  filter(part == "b", correct == "N", str_detect(nature_of_mistake, "surjective")) %>% 
+  select(coder, script, nature_of_mistake)
+```
+For students who made a mistake with the image in (b), what did they do in (a)?
+
+```{r}
+coding_final %>% 
+  filter(part == "a") %>% 
+  semi_join(
+    coding_final %>% 
+      filter(part == "b", correct == "N", str_detect(nature_of_mistake, "image too large|image goes beyond|surjective")) %>% 
+      select(script),
+    by = "script"
+  ) %>% 
+  select(coder, script, correct, nature_of_mistake) %>% 
+  arrange(correct, script)
+
+```
+
+
+```{r}
+coding_final %>% 
+  filter(part == "b", correct == "N", !str_detect(nature_of_mistake, "image")) %>% 
+  select(coder, script, nature_of_mistake) %>% 
+  arrange(nature_of_mistake, script)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

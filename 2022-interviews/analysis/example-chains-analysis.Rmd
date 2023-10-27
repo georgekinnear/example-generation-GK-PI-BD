@@ -1,0 +1,179 @@
+---
+title: "Interview responses - analysis of example chains"
+author: "George Kinnear"
+date: "2023-06-21"
+always_allow_html: true
+output:
+  html_document:
+    df_print: paged
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+# Tables
+library(gt)
+library(knitr)
+library(kableExtra)
+basic_kable = function(df) {
+  df %>% 
+    kable() %>%
+    kable_styling(bootstrap_options = "striped", full_width = F)
+}
+rmarkdown::html_document(df_print = knitr::kable)
+options(knitr.kable.NA = '')
+
+# Set preferred styling
+theme_set(theme_minimal())
+```
+
+## Data
+
+```{r}
+chains_data <- read_csv("example-chain-details.csv", show_col_types = FALSE) %>% 
+  janitor::clean_names() %>% 
+  mutate(group = if_else(str_detect(participant, "S"), "e-assessment", "written"), .before = "participant") %>% 
+  # clean up the Transformation strategy %>% 
+  mutate(strategy = if_else(strategy == "TRP", "TR", strategy))
+
+chains_data %>% 
+  basic_kable()
+```
+
+## Counting chains
+
+```{r}
+chains_data %>% 
+  group_by(group, participant, task) %>% 
+  tally(name = "num_steps") %>% 
+  group_by(group) %>% 
+  tally(name = "num_chains") %>% 
+  janitor::adorn_totals() %>% 
+  basic_kable()
+```
+
+## Correctness
+
+
+```{r}
+chains_scored <- chains_data %>% 
+  # add final_correct column to record whether the chain was eventually correct
+  left_join(
+    chains_data %>% 
+      select(participant, task, example_num, correct) %>% 
+      group_by(participant, task) %>% 
+      slice_max(order_by = example_num, n = 1) %>% 
+      select(-example_num) %>% 
+      rename(final_correct = correct),
+    by = c("participant", "task")
+  ) %>% 
+  # decide on the "correctness" score for each chain
+  group_by(group, participant, task) %>% 
+  mutate(had_prompt = sum(validation == "prompted", na.rm = TRUE) > 0) %>% 
+  mutate(correctness = case_when(
+    had_prompt == FALSE ~ paste0("", final_correct),
+    had_prompt == TRUE & final_correct == 1 ~ "1 - prompted",
+    had_prompt == TRUE & final_correct == 0 ~ "0",
+  ))
+
+chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  summarise(correctness = max(correctness), .groups = "drop") %>% 
+  group_by(correctness) %>% 
+  tally(name = "num_chains") %>% 
+  janitor::adorn_totals() %>% 
+  basic_kable()
+```
+
+## Chain endings
+
+```{r}
+chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  slice_max(example_num, n = 1) %>% 
+  group_by(terminal_strategy = strategy) %>% 
+  tally()
+```
+
+In four of these cases, students generated a correct example at the end of that chain without
+prompts, while in a further 13 cases the final example was correct but produced only
+after prompts by the interviewer.
+The remaining five cases ended with an incorrect solution
+
+```{r}
+chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  slice_max(example_num, n = 1) %>% 
+  group_by(terminal_strategy = strategy, correctness) %>% 
+  filter(terminal_strategy == "TR") %>% 
+  tally()
+```
+
+```{r}
+chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  # all steps based on T&E
+  filter(sum(strategy == "T&E") == n())
+```
+
+## Chain beginnings
+
+```{r}
+chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  slice_min(example_num, n = 1) %>% 
+  group_by(initial_strategy = strategy) %>% 
+  tally()
+```
+
+Focusing on the chains that start with DA:
+
+```{r}
+chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  slice_min(example_num, n = 1) %>% 
+  group_by(initial_strategy = strategy, correctness) %>% 
+  filter(initial_strategy == "DA") %>% 
+  tally()
+```
+
+Looking in more detail at these:
+
+```{r}
+da_first_attempts <- chains_scored %>% 
+  group_by(group, participant, task) %>% 
+  mutate(uses_DA_first = sum(strategy == "DA" & example_num == 1)) %>% 
+  filter(uses_DA_first > 0)
+
+da_first_attempts
+```
+
+
+
+```{r}
+da_first_attempts %>% 
+  ggplot(aes(x = 1, y = -(example_num-1), label = strategy, colour = correctness)) +
+  geom_segment(aes(xend = 1, y = -0.2-(example_num-2)*(if_else(example_num == 1, 0, 1)), yend = -(example_num-1)+0.2), arrow = arrow(length = unit(0.25, "cm"), type = "closed"), size = 0.8) +
+  geom_label() +
+  facet_wrap(vars(participant, task)) +
+  theme_void()
+```
+
+
+## Strategy transitions
+
+```{r}
+chains_data %>% 
+  group_by(group, participant, task) %>% 
+  mutate(next_strategy = lead(strategy)) %>% 
+  ungroup() %>% 
+  select(strategy, next_strategy) %>% 
+  filter(!is.na(next_strategy)) %>% 
+  group_by(strategy, next_strategy) %>% 
+  tally()
+```
+
