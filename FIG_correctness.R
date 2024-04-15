@@ -1,4 +1,6 @@
+library(tidyverse)
 library(ggtext)
+theme_set(theme_minimal())
 
 scores <- tibble(
   #part = c("a", "b", "c", "d"),
@@ -62,3 +64,4 @@ scores %>%
   expand_limits(y = c(0, 1), x = 6.5) +
   labs(x = "", y = "Correct responses")
 ggsave("paper/FIG_correctness.pdf", units = "cm", width = 10, height = 7)
+ggsave("paper/FIG_correctness.svg", units = "cm", width = 10, height = 7)
